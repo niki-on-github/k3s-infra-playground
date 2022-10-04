@@ -1,0 +1,37 @@
+---
+version: "3"
+
+tasks:
+
+  verify:
+    desc: Verify flux meets the prerequisites
+    cmds:
+      - flux check --pre
+
+  install:
+    desc: Install Flux into your cluster
+    cmds:
+      - kubectl apply --kustomize {{ .CLUSTER_DIR }}/bootstrap/
+      - kubectl delete secret sops-age --ignore-not-found --namespace=flux-system
+      - kubectl -n flux-system create secret generic sops-age --from-file=age.agekey={{ .SOPS_AGE_KEY_FILE }}
+      - flux create secret git flux-git-auth --url={{ .REPO_SSH_URL }} --private-key-file={{ .PRIVATE_SSH_KEYFILE }}
+      - kubectl apply --kustomize {{ .CLUSTER_DIR }}/flux/flux-system/
+      - task: reconcile
+    preconditions:
+      - sh: test -f {{ .SOPS_AGE_KEY_FILE }}
+        msg: |
+          Age key file not found.
+      - sh: test -f {{ .PRIVATE_SSH_KEYFILE }}
+        msg: |
+          Ssh key file not found.
+    vars:
+      SOPS_AGE_KEY_FILE: /opt/k3s/.age/sops.agekey
+      PRIVATE_SSH_KEYFILE: /home/arch/.ssh/arch-testserver
+      REPO_SSH_URL: ssh://git@git.server01.lan:222/r/k3s-infra-testing.git
+
+  reconcile:
+    desc: Force update Flux to pull in changes from your Git repository
+    cmds:
+      - flux reconcile -n flux-system source git flux-system || flux reconcile -n flux-system source git flux-system
+      - flux reconcile -n flux-system kustomization flux-system || flux reconcile -n flux-system kustomization flux-system
+

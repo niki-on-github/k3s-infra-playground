@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: flux-system
+  name: cluster-settings
+data:
+  LONGHORN_DATA_PATH: "/var/lib/longhorn"
+  NFS_BACKUP_SERVER: "10.0.1.200"
+  SVC_GITEA_SSH_IP: "10.0.1.200"
+  TIMEZONE: "Europe/Berlin"
