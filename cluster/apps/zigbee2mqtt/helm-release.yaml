@@ -60,7 +60,3 @@ spec:
         type: pvc
         size: 10Gi
 
-    resources:
-      requests:
-        cpu: 50m
-        memory: 100Mi

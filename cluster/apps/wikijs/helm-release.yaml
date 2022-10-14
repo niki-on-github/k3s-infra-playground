@@ -24,9 +24,15 @@ spec:
     auth:
       postgresPassword: ${SECRET_WEBSERVICES_PASSWORD}
       database: "wikijs"
+
     persistence:
       enabled: true
       storageClass: longhorn
+
+    resources:
+      requests:
+        cpu: 25m
+        memory: 128M
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -46,12 +52,10 @@ spec:
         namespace: flux-system
 
   dependsOn:
-  - name: wikijs-postgresql
-    namespace: apps
   - name: longhorn
     namespace: storage
   - name: traefik
-    namespace: ingress
+    namespace: networking
 
   values:
     global:

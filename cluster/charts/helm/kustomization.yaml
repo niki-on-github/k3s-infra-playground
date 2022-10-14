@@ -3,15 +3,23 @@ kind: Kustomization
 resources:
 - authelia-charts.yaml
 - authentik-charts.yaml
+- bitnami-charts.yaml
+- bjw-s-charts.yaml
 - coredns-charts.yaml
 - drone-charts.yaml
 - elastic-charts.yaml
+- fairwinds-charts.yaml
 - gitea-charts.yaml
 - grafana-charts.yaml
 - influxdata-charts.yaml
+- jetstack-charts.yaml
+- k8s-at-home-charts.yaml
 - longhorn-charts.yaml
+- metallb-charts.yaml
+- metrics-server-charts.yaml
+- minio-charts.yaml
+- postgres-operator-charts.yaml
+- postgres-ui-charts.yaml
 - prometheus-community-charts.yaml
 - rook-ceph-charts.yaml
 - traefik-charts.yaml
-- bitnami.yaml
-- bjw-s.yaml

@@ -1,0 +1,73 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: prometheus-stack
+  namespace: monitoring
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: 40.3.1
+      interval: 1h
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community-charts
+        namespace: flux-system
+
+  dependsOn:
+    - name: longhorn
+      namespace: storage
+    - name: thanos
+      namespace: monitoring
+
+  values:
+    # required to get thanos discovery working
+    fullnameOverride: prometheus
+
+    grafana:
+      enabled: false
+      defaultDashboardsTimezone: "${TIMEZONE}"
+      forceDeployDatasources: false
+      forceDeployDashboards: true
+
+    nodeExporter:
+      # we install prometheus-node-exporter on host system
+      enabled: false
+
+    prometheus:
+      prometheusSpec:
+        replicas: 1
+        replicaExternalLabelName: "replica"
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+        retention: 6h
+        enableAdminAPI: true
+        walCompression: true
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 5Gi
+        thanos:
+          objectStorageConfig:
+            name: thanos-objstore-config
+            key: objstore.yml
+
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128M
+
+      thanosService:
+        enabled: true
+
+      thanosServiceMonitor:
+        enabled: true
+
+

@@ -19,7 +19,7 @@ spec:
 
   dependsOn:
   - name: traefik
-    namespace: ingress
+    namespace: networking
   - name: longhorn
     namespace: storage
 
@@ -84,3 +84,7 @@ spec:
 
     memcached:
       enabled: true
+      resources:
+        requests:
+          cpu: 25m
+          memory: 256M

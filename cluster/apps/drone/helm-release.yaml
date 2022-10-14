@@ -23,9 +23,15 @@ spec:
     fullnameOverride: *db
     auth:
       postgresPassword: ${SECRET_WEBSERVICES_PASSWORD}
+
     persistence:
       enabled: true
       storageClass: longhorn
+
+    resources:
+      requests:
+        cpu: 25m
+        memory: 128M
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -47,7 +53,7 @@ spec:
 
   dependsOn:
   - name: traefik
-    namespace: ingress
+    namespace: networking
   - name: longhorn
     namespace: storage
   - name: drone-postgresql
@@ -59,12 +65,22 @@ spec:
     persistentVolume:
       enabled: false
 
+    extraVolumes:
+      - name: ca-certs
+        hostPath:
+          path: /etc/ssl/certs/ca-certificates.crt
+
+    extraVolumeMounts:
+      - name: ca-certs
+        mountPath: /etc/ssl/certs/ca-certificates.crt
+        readOnly: true
+
     ingress:
       enabled: true
       ingressClassName: traefik
       annotations:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        traefik.ingress.kubernetes.io/router.middlewares: "ingress-auth@kubernetescrd"
+        # traefik.ingress.kubernetes.io/router.middlewares: "networking-auth@kubernetescrd"
       hosts:
         - host: &host "drone.${SECRET_DOMAIN}"
           paths:
@@ -78,7 +94,6 @@ spec:
       DRONE_DATABASE_DRIVER: postgres
       DRONE_DATABASE_DATASOURCE: postgres://postgres:${SECRET_WEBSERVICES_PASSWORD}@drone-postgresql.apps.svc/postgres?sslmode=disable
       DRONE_GIT_ALWAYS_AUTH: true
-      # DRONE_GITEA_SKIP_VERIFY: true
       DRONE_GITEA_CLIENT_ID: ${SECRET_DRONE_GITEA_CLIENT_ID}
       DRONE_GITEA_CLIENT_SECRET: ${SECRET_DRONE_GITEA_CLIENT_SECRET}
       DRONE_GITEA_SERVER: https://git.${SECRET_DOMAIN}
@@ -86,8 +101,6 @@ spec:
       DRONE_SERVER_HOST: drone.${SECRET_DOMAIN}
       DRONE_TLS_AUTOCERT: false
       DRONE_SERVER_PROTO: https
-      # DRONE_SERVER_PROXY_HOST: drone.apps.svc
-      # DRONE_SERVER_PROXY_PROTO: http
       DRONE_USER_CREATE: username:root,admin:true
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
@@ -129,20 +142,44 @@ spec:
         readOnly: true
 
     env:
-      # not required with mounted ca-certificates
-      # DRONE_RPC_SKIP_VERIFY: true
       DRONE_NAMESPACE_DEFAULT: apps
-      # DRONE_RPC_PROTO: https
       DRONE_RPC_PROTO: http
       DRONE_RUNNER_NAME: "drone-runner-kube"
-      DRONE_DEBUG: "true"
-      DRONE_TRACE: "true"
-      DRONE_RPC_HOST: drone
-      # DRONE_RPC_HOST: "drone.apps.svc.cluster.local"
-      # DRONE_RPC_HOST: drone.${SECRET_DOMAIN}
+      DRONE_RPC_HOST: "drone.apps:8080"
       DRONE_RPC_SECRET: ${SECRET_DRONE_RPC_SECRET}
-      # DRONE_SECRET_PLUGIN_ENDPOINT: http://drone-kubernetes-secrets.drone.svc:3000
-      # DRONE_SECRET_PLUGIN_TOKEN: ${SECRET_DRONE_PLUGIN_SECRET}
-      # DRONE_RUNNER_VOLUMES: "/etc/ssl/certs:/etc/ssl/certs"
-      # DRONE_RUNNER_VOLUMES: "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt"
       DRONE_RUNNER_ENVIRON: "GIT_SSL_NO_VERIFY:true"
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: drone-runner-docker
+  namespace: apps
+spec:
+  interval: 1h
+  chart:
+    spec:
+      # registryUrl=https://charts.drone.io
+      chart: drone-runner-docker
+      version: 0.3.1
+      sourceRef:
+        kind: HelmRepository
+        name: drone-charts
+        namespace: flux-system
+
+  dependsOn:
+  - name: drone
+    namespace: apps
+
+  values:
+    replicaCount: 1
+
+    env:
+      DRONE_RPC_PROTO: https
+      DRONE_RPC_SKIP_VERIFY: true
+      DRONE_RUNNER_NAME: "drone-runner-docker"
+      DRONE_RUNNER_CAPACITY: 2
+      DRONE_RUNNER_NETWORKS: "docker-bridge"
+      DRONE_RPC_HOST: "drone.${SECRET_DOMAIN}"
+      DRONE_RPC_SECRET: ${SECRET_DRONE_RPC_SECRET}
+      DRONE_RUNNER_VOLUMES: "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt"
+      # DRONE_RUNNER_ENVIRON: "GIT_SSL_NO_VERIFY:true"

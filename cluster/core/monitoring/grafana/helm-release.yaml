@@ -15,6 +15,10 @@ spec:
         name: grafana-charts
         namespace: flux-system
 
+  dependsOn:
+    - name: traefik
+      namespace: networking
+
   values:
     nameOverride: *app
 
@@ -33,13 +37,6 @@ spec:
         - hosts:
             - "grafana.${SECRET_DOMAIN}"
 
-    resources:
-      requests:
-        cpu: 100m
-        memory: 100Mi
-      limits:
-        memory: 200Mi
-
     adminUser: root
     adminPassword: "${SECRET_WEBSERVICES_PASSWORD}"
 
@@ -49,8 +46,22 @@ spec:
         searchNamespace: ALL
 
       datasources:
-        enabled: true
+        enabled: false
         searchNamespace: ALL
+
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://thanos-query.monitoring:9090
+        - name: loki
+          type: loki
+          access: proxy
+          isDefault: false
+          url: http://loki-stack.monitoring:3100
 
     plugins:
       - grafana-piechart-panel
@@ -62,3 +73,8 @@ spec:
 
     persistence:
       enabled: false
+
+    env:
+      GF_EXPLORE_ENABLED: true
+      GF_SECURITY_ALLOW_EMBEDDING: true
+

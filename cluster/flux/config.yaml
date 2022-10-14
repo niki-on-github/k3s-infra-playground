@@ -6,6 +6,8 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1m
+  dependsOn:
+  - name: namespaces
   path: ./cluster/config
   prune: true
   force: true

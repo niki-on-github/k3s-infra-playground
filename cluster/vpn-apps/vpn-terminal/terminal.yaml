@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vpn-terminal
+  namespace: vpn-apps
+  labels:
+    app: vpn-terminal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vpn-terminal
+  dependsOn:
+    - name: vpn-gateway
+      namespace: vpn-gateway
+  template:
+    metadata:
+      labels:
+        app: vpn-terminal
+    spec:
+      containers:
+      - name: network-tools
+        image: ghcr.io/jonlabelle/network-tools
+        tty: true
+        stdin: true
+        command:
+        - /bin/bash

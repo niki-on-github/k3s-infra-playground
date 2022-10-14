@@ -23,9 +23,15 @@ spec:
     fullnameOverride: *db
     auth:
       postgresPassword: ${SECRET_WEBSERVICES_PASSWORD}
+
     persistence:
       enabled: true
       storageClass: longhorn
+
+    resources:
+      requests:
+        cpu: 25m
+        memory: 128M
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -50,14 +56,16 @@ spec:
   - name: longhorn
     namespace: storage
   - name: traefik
-    namespace: ingress
+    namespace: networking
+  - name: homeassistant-postgresql
+    namespace: apps
 
   values:
     global:
       nameOverride: *app
 
     image:
-      repository: ghcr.io/onedr0p/home-assistant
+      repository: homeassistant/home-assistant
       tag: 2022.9.7
 
     service:
@@ -95,15 +103,6 @@ spec:
         storageClass: longhorn
         type: pvc
         size: 32Gi
-
-    resources:
-      requests:
-        cpu: 50m
-        memory: 250Mi
-
-    # envFrom:
-    #   - secretRef:
-    #       name: homeassistant-secret
 
     env:
       postgresql_uri: "postgres://postgres:${SECRET_WEBSERVICES_PASSWORD}@homeassistant-postgresql.apps.svc/postgres?sslmode=disable"

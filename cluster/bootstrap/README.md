@@ -1,0 +1,3 @@
+# bootstrap
+
+flux bootstrap resources.
