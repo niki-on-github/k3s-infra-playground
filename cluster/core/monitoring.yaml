@@ -1,0 +1,34 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: monitoring
+  namespace: flux-system
+spec:
+  interval: 15m
+  retryInterval: 2m0s
+  timeout: 5m
+  path: "./cluster/core/monitoring"
+  prune: true
+  dependsOn:
+    - name: minio
+    - name: longhorn-storage
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substitute: {}
+    substituteFrom:
+    - kind: ConfigMap
+      name: cluster-settings
+    - kind: Secret
+      name: cluster-secrets
+  healthChecks:
+  - apiVersion: apps/v1
+    kind: Deployment
+    name: thanos-query
+    namespace: monitoring
+

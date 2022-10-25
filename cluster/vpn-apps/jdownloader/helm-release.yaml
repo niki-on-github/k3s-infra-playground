@@ -1,9 +1,12 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: &app jdownloader
   namespace: vpn-apps
+  annotations:
+    app.kubernetes.io/managed-by: "Helm"
+    meta.helm.sh/release-name: "jdownloader"
+    meta.helm.sh/release-namespace: "vpn-apps"
 spec:
   interval: 15m
   chart:
@@ -62,26 +65,13 @@ spec:
       config:
         enabled: true
         type: pvc
-        accessMode: ReadWriteOnce
-        storageClass: longhorn
-        size: 512Mi
+        existingClaim: jdownloader-config
         mountPath: /config
       downloads:
         enabled: true
         type: pvc
         accessMode: ReadWriteOnce
-        storageClass: longhorn
-        size: 64Gi
+        storageClass: nfs-storage
+        size: 512Gi
         mountPath: /output
 
-    probes:
-      livenessProbe:
-        custom: true
-        exec:
-          command:
-            - sh
-            - -c
-            - if ip a | grep -q vxlan; then exit 0; else exit $$?; fi
-        initialDelaySeconds: 30
-        periodSeconds: 60
-        failureThreshold: 3

@@ -1,0 +1,12 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-storage
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: "${SVC_NFS_IP}"
+  share: /pv
+  subDir: /$${pvc.metadata.name}
+reclaimPolicy: Retain
+volumeBindingMode: Immediate

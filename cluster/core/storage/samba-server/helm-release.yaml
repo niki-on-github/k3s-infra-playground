@@ -1,0 +1,96 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app samba
+  namespace: storage
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 0.2.2
+      interval: 1h
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+
+  values:
+    global:
+      nameOverride: *app
+
+    image:
+      repository: crazymax/samba
+      tag: 4.15.7
+
+    service:
+      main:
+        ports:
+          http:
+            enabled: false
+          samba:
+            enabled: true
+            port: 445
+            protocol: TCP
+        externalTrafficPolicy: Local
+        type: LoadBalancer
+        externalIPs:
+          - ${SVC_SAMBA_IP}
+
+    configmap:
+      config:
+        enabled: true
+        data:
+          config.yml: |
+            auth:
+              - user: smb
+                group: smb
+                uid: 1000
+                gid: 1000
+                password: "${SECRET_WEBSERVICES_PASSWORD}"
+
+            global:
+              - "force user = smb"
+              - "force group = smb"
+
+            share:
+              - name: samba
+                path: /samba
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: smb
+                writelist: smb
+                veto: no
+
+    persistence:
+      samba:
+        enabled: true
+        type: hostPath
+        hostPath: "${SAMBA_HOST_PATH}"
+        mountPath: /samba
+      data:
+        enabled: true
+        type: emptyDir
+        mountPath: /data
+      data-config:
+        enabled: true
+        type: configMap
+        mountPath: /data/config.yml
+        name: samba-config
+        subPath: config.yml
+
+    env:
+      TZ: "${TIMEZONE}"
+
+    affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            # kubectl get nodes --show-labels
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - "${SAMBA_SERVER_AFFINITY_HOSTNAME}"

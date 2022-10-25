@@ -5,6 +5,7 @@ resources:
 - authentik-charts.yaml
 - bitnami-charts.yaml
 - bjw-s-charts.yaml
+- csi-driver-nfs-charts.yaml
 - coredns-charts.yaml
 - drone-charts.yaml
 - elastic-charts.yaml

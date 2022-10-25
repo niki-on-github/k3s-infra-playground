@@ -26,7 +26,8 @@ spec:
       enabled: true
       persistence:
         enabled: true
-        storageClass: longhorn
+        existingClaim: loki
+
 
     promtail:
       enabled: true

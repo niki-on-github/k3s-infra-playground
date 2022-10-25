@@ -64,8 +64,7 @@ spec:
       podAntiAffinityPreset: hard
       persistence:
         enabled: true
-        storageClass: longhorn
-        size: 5Gi
+        existingClaim: thanos-storegateway
 
     metrics:
       enabled: true

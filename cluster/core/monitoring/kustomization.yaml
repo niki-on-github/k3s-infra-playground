@@ -4,7 +4,7 @@ resources:
   - prometheus-stack
   - grafana
   - loki-stack
-  - kubernetes-dashboard
+  # - kubernetes-dashboard
   - metrics-server
   - thanos
   - goldilocks

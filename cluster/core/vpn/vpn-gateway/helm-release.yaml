@@ -25,9 +25,9 @@ spec:
   values:
 
     image:
-      repository: ghcr.io/niki-on-github/pod-gateway
+      repository: ghcr.io/angelnu/pod-gateway
       pullPolicy: Always
-      tag: dev
+      tag: latest
 
     addons:
       vpn:

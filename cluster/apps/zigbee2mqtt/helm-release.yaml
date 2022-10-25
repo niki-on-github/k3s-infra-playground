@@ -55,8 +55,5 @@ spec:
       config:
         enabled: true
         mountPath: /config
-        accessMode: ReadWriteOnce
-        storageClass: longhorn
-        type: pvc
-        size: 10Gi
+        existingClaim: zigbee2mqtt-config
 

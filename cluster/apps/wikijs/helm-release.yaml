@@ -25,9 +25,10 @@ spec:
       postgresPassword: ${SECRET_WEBSERVICES_PASSWORD}
       database: "wikijs"
 
-    persistence:
-      enabled: true
-      storageClass: longhorn
+    primary:
+      persistence:
+        enabled: true
+        existingClaim: wikijs-db
 
     resources:
       requests:

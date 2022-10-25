@@ -41,4 +41,25 @@ kubectl get clusterissuers ca-issuer
 kubectl api-resources -o wide
 ```
 
-1
+```bash
+kubectl get nodes --show-labels
+```
+
+```bash
+kubectl describe kustomization core -n flux-system
+```
+
+```bash
+flux suspend hr whoami -n networking
+flux resume hr whoami -n networking
+```
+
+```bash
+kubectl get csidrivers
+```
+
+```
+kubectl get pv prometheus -n monitoring -o yaml > override.yaml
+# adjust the yaml file
+kubectl replace -f override.yaml
+```

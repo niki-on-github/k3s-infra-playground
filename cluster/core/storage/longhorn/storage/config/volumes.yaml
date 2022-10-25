@@ -1,0 +1,163 @@
+apiVersion: longhorn-volume-manager/v1
+kind: LonghornVolumeSpec
+metadata:
+  name: longhorn-volumes
+  namespace: storage
+spec:
+  volumes:
+    jdownloader-config:
+      namespace: vpn-apps
+      size: 512Mi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    nzbget-config:
+      namespace: vpn-apps
+      size: 512Mi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    drone-db:
+      namespace: apps
+      size: 4Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    gitea-data:
+      namespace: apps
+      size: 64Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    gitea-db:
+      namespace: apps
+      size: 4Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    homeassistant-db:
+      namespace: apps
+      size: 4Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    homeassistant-config:
+      namespace: apps
+      size: 4Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    mosquitto-data:
+      namespace: apps
+      size: 16Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    paperless-data:
+      namespace: apps
+      size: 32Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    paperless-media:
+      namespace: apps
+      size: 32Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    vaultwarden-data:
+      namespace: apps
+      size: 32Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    wikijs-db:
+      namespace: apps
+      size: 16Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    zigbee2mqtt-config:
+      namespace: apps
+      size: 2Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    thanos-storegateway:
+      namespace: monitoring
+      size: 16Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    uptime-kuma-config:
+      namespace: monitoring
+      size: 512Mi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    loki:
+      namespace: monitoring
+      size: 8Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    authentik-db:
+      namespace: networking
+      size: 4Gi
+      restore: true
+      createPVC: true
+      groups:
+        - weekly
+        - daily
+    thanos-minio:
+      namespace: monitoring
+      size: 8Gi
+      restore: true
+      createPVC: false
+      claimRef: "0-minio-pool-0-0"
+      groups:
+        - weekly
+        - daily
+    prometheus:
+      namespace: monitoring
+      size: 8Gi
+      restore: true
+      createPVC: false
+      claimRef: "prometheus-prometheus-prometheus-db-prometheus-prometheus-prometheus-0"
+      groups:
+        - weekly
+        - daily
+
+

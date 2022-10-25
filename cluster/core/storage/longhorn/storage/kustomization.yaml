@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- rbac
+- job.yaml
+configMapGenerator:
+- name: longhorn-volumes-config
+  namespace: storage
+  files:
+  - ./config/volumes.yaml
+  options:
+    disableNameSuffixHash: true
+    labels:
+      type: generated

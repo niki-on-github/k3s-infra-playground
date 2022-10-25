@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
   - cluster-secrets.sops.yaml
   - cluster-settings.yaml
-  - ca-certs.sops.yaml
   - vpn-config.sops.yaml
+  - ca-certs.sops.yaml

@@ -5,6 +5,7 @@ metadata:
   namespace: monitoring
 spec:
   interval: 15m
+  timeout: 20m
   chart:
     spec:
       chart: app-template
@@ -52,7 +53,5 @@ spec:
       config:
         enabled: true
         mountPath: /app/data
-        accessMode: ReadWriteOnce
-        storageClass: longhorn
         type: pvc
-        size: 10Gi
+        existingClaim: uptime-kuma-config

@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - networking
   - storage
-  # - monitoring
-  # - system-upgrade
+  - system-upgrade
   - vpn
+  - monitoring.yaml

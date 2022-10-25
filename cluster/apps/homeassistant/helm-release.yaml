@@ -24,9 +24,10 @@ spec:
     auth:
       postgresPassword: ${SECRET_WEBSERVICES_PASSWORD}
 
-    persistence:
-      enabled: true
-      storageClass: longhorn
+    primary:
+      persistence:
+        enabled: true
+        existingClaim: homeassistant-db
 
     resources:
       requests:
@@ -99,10 +100,8 @@ spec:
       config:
         enabled: true
         mountPath: /config
-        accessMode: ReadWriteOnce
-        storageClass: longhorn
         type: pvc
-        size: 32Gi
+        existingClaim: homeassistant-config
 
     env:
       postgresql_uri: "postgres://postgres:${SECRET_WEBSERVICES_PASSWORD}@homeassistant-postgresql.apps.svc/postgres?sslmode=disable"

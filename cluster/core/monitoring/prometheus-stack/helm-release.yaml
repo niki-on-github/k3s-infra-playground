@@ -5,6 +5,7 @@ metadata:
   namespace: monitoring
 spec:
   interval: 15m
+  timeout: 20m
   chart:
     spec:
       chart: kube-prometheus-stack
@@ -49,7 +50,9 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: longhorn
+              selector:
+                matchLabels:
+                  app.kubernetes.io/name: prometheus
               accessModes: ["ReadWriteOnce"]
               resources:
                 requests:

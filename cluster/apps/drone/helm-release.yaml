@@ -24,9 +24,10 @@ spec:
     auth:
       postgresPassword: ${SECRET_WEBSERVICES_PASSWORD}
 
-    persistence:
-      enabled: true
-      storageClass: longhorn
+    primary:
+      persistence:
+        enabled: true
+        existingClaim: drone-db
 
     resources:
       requests:

@@ -58,9 +58,7 @@ spec:
             name: mosquitto-config
       data:
         enabled: true
-        mountPath: /mosquitto/data
-        accessMode: ReadWriteOnce
-        storageClass: longhorn
         type: pvc
-        size: 32Gi
+        mountPath: /mosquitto/data
+        existingClaim: mosquitto-data
 

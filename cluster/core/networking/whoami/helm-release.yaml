@@ -8,6 +8,7 @@ metadata:
     meta.helm.sh/release-namespace: "networking"
 spec:
   interval: 15m
+  timeout: 15m
   chart:
     spec:
       chart: app-template
@@ -17,6 +18,14 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
+
+  install:
+    remediation:
+      retries: 10
+
+  upgrade:
+    remediation:
+      retries: 10
 
   dependsOn:
   - name: traefik
@@ -48,3 +57,16 @@ spec:
         tls:
           - hosts:
               - *host
+
+    probes:
+      readiness:
+        enabled: true
+        custom: true
+        spec:
+          initialDelaySeconds: 2
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
+          httpGet:
+            path: /ping
+            port: 80

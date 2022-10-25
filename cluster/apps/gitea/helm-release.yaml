@@ -51,7 +51,7 @@ spec:
 
     persistence:
       enabled: true
-      storageClass: longhorn
+      existingClaim: gitea-data
 
     gitea:
       admin:
@@ -80,7 +80,7 @@ spec:
       enabled: true
       persistence:
         enabled: true
-        storageClass: longhorn
+        existingClaim: gitea-db
 
     memcached:
       enabled: true

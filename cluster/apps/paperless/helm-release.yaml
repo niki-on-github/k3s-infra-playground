@@ -78,31 +78,27 @@ spec:
       data:
         enabled: true
         mountPath: /usr/src/paperless/data
-        accessMode: ReadWriteOnce
-        storageClass: longhorn
         type: pvc
-        size: 10Gi
+        existingClaim: paperless-data
       media:
         enabled: true
         mountPath: /usr/src/paperless/media
-        accessMode: ReadWriteOnce
-        storageClass: longhorn
         type: pvc
-        size: 10Gi
+        existingClaim: paperless-media
       consume:
         enabled: true
-        mountPath: /usr/src/paperless/consume
-        accessMode: ReadWriteOnce
-        storageClass: longhorn
         type: pvc
-        size: 10Gi
+        accessMode: ReadWriteOnce
+        storageClass: nfs-storage
+        size: 8Gi
+        mountPath: /usr/src/paperless/consume
       export:
         enabled: true
-        mountPath: /usr/src/paperless/export
-        accessMode: ReadWriteOnce
-        storageClass: longhorn
         type: pvc
-        size: 10Gi
+        accessMode: ReadWriteOnce
+        storageClass: nfs-storage
+        size: 128Gi
+        mountPath: /usr/src/paperless/export
 
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1

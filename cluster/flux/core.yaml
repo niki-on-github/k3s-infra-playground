@@ -1,19 +1,21 @@
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: core
   namespace: flux-system
 spec:
   interval: 1m
+  timeout: 15m
+  retryInterval: 30s
   dependsOn:
   - name: charts
   - name: config
-  - name: crds
   - name: namespaces
   path: ./cluster/core
   prune: true
   force: true
+  wait: true
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -28,3 +30,16 @@ spec:
       name: cluster-settings
     - kind: Secret
       name: cluster-secrets
+  healthChecks:
+  - apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+    kind: Kustomization
+    name: traefik
+    namespace: flux-system
+  - apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+    kind: Kustomization
+    name: longhorn
+    namespace: flux-system
+  - apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+    kind: Kustomization
+    name: longhorn-storage
+    namespace: flux-system

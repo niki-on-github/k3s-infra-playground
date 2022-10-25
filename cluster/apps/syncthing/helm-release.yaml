@@ -60,11 +60,11 @@ spec:
     persistence:
       data:
         enabled: true
-        mountPath: /var/syncthing
-        accessMode: ReadWriteOnce
-        storageClass: longhorn
         type: pvc
-        size: 32Gi
+        accessMode: ReadWriteOnce
+        storageClass: nfs-storage
+        size: 512Gi
+        path: /sync
 
     env:
       PUID: "1000"

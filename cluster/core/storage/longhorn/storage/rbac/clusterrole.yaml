@@ -1,0 +1,21 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: longhorn-volume-setup-role
+  namespace: storage
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+  labels:
+    app: longhorn-volume-setup
+rules:
+- apiGroups:
+  - "" # "" indicates the core API group
+  resources:
+  - "persistentvolumes"
+  - "persistentvolumeclaims"
+  verbs:
+  - "get"
+  - "watch"
+  - "create"
+  - "update"
+  - "patch"

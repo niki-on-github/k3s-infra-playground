@@ -6,12 +6,14 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1m
+  timeout: 15m
+  retryInterval: 30s
   dependsOn:
-  - name: crds
   - name: namespaces
   path: ./cluster/charts
   prune: true
   force: true
+  wait: true
   sourceRef:
     kind: GitRepository
     name: flux-system
