@@ -6,3 +6,4 @@ resources:
 - longhorn
 - minio
 - csi-driver-nfs
+- docker-registry

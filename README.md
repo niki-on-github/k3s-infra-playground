@@ -63,3 +63,21 @@ kubectl get pv prometheus -n monitoring -o yaml > override.yaml
 # adjust the yaml file
 kubectl replace -f override.yaml
 ```
+
+```bash
+kubectl -n flux-system patch kustomization flux-system -p '{"metadata":{"finalizers":null}}'
+```
+
+```bash
+kubectl delete job longhorn-volume-setup -n storage
+flux reconcile kustomization longhorn-setup
+```
+
+```bash
+# see https://kubevirt.io/user-guide/virtual_machines/virtual_machine_instances/
+kubectl create -f vmi.yaml
+kubectl get vmis -A
+kubectl get virtualmachines -A
+virtctl ssh -n kubevirt vm-cirros
+kubectl delete vmis testvmi
+```

@@ -1,0 +1,62 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-vyos
+  namespace: kubevirt
+spec:
+  running: true
+  template:
+    spec:
+      domain:
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: datavolumedisk1
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
+        machine:
+          type: ""
+        resources:
+          requests:
+            memory: 2048M
+      readinessProbe:
+        exec:
+          command: ["cat", "/tmp/healthy.txt"]
+        failureThreshold: 10
+        initialDelaySeconds: 20
+        periodSeconds: 10
+        timeoutSeconds: 5
+      terminationGracePeriodSeconds: 180
+      volumes:
+      - dataVolume:
+          name: vm-vyos-dv
+        name: datavolumedisk1
+      - cloudInitNoCloud:
+          userData: |-
+            #cloud-config
+            password: vyos
+            user: vyos
+            chpasswd: { expire: False }
+            packages:
+              qemu-guest-agent
+            runcmd:
+              - ["touch", "/tmp/healthy.txt"]
+              - ["sudo", "chcon", "-t", "virt_qemu_ga_exec_t", "/tmp/healthy.txt"]
+              - ["sudo", "systemctl", "enable", "--now", "qemu-guest-agent"]
+        name: cloudinitdisk
+  dataVolumeTemplates:
+  - metadata:
+      name: vm-vyos-dv
+    spec:
+      pvc:
+        storageClassName: longhorn
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 16Gi
+      source:
+        http:
+          url: https://github.com/niki-on-github/vyos-qemu-images/releases/download/main/vyos-1.4-rolling-202211010829-cloud-init-10G-qemu.qcow2

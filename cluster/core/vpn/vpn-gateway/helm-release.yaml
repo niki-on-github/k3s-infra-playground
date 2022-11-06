@@ -5,39 +5,67 @@ metadata:
   name: vpn-gateway
   namespace: vpn-gateway
 spec:
-  interval: 5m
+  interval: 15m
+  timeout: 15m
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: pod-gateway
-      version: 5.6.2
+      version: 5.8.0
+      interval: 15m
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: angelnu-charts
         namespace: flux-system
-      interval: 5m
 
   dependsOn:
-  - name: cert-manager
-    namespace: networking
+    # - name: longhorn
+    #   namespace: storage
+    - name: cert-manager
+      namespace: networking
 
-  # See https://github.com/k8s-at-home/charts/blob/master/charts/stable/pod-gateway/values.yaml
+
+  #See https://github.com/angelnu/helm-charts/blob/main/charts/apps/pod-gatewa/values.yaml
   values:
 
     image:
       repository: ghcr.io/angelnu/pod-gateway
-      pullPolicy: Always
       tag: latest
+
+    webhook:
+      image:
+        repository: ghcr.io/angelnu/gateway-admision-controller
+        pullPolicy: Always
+        tag: latest
+
+      gatewayDefault: true
+      gatewayLabel: setGateway
+      gatewayAnnotation: setGateway
+      namespaceSelector:
+        label: "vpn-routed-gateway"
 
     addons:
       vpn:
         enabled: true
-        type: openvpn
-        openvpn:
+        type: gluetun
+        gluetun:
           image:
-            repository: dperson/openvpn-client
-            pullPolicy: Always
+            repository: docker.io/qmcgaw/gluetun
             tag: latest
+
+        env:
+        - name: VPN_SERVICE_PROVIDER
+          value: custom
+        - name: VPN_TYPE
+          value: openvpn
+        - name: VPN_INTERFACE
+          value: tun0
+        - name: OPENVPN_CUSTOM_CONFIG
+          value: /gluetun/config.conf
+        - name: DOT
+          value: "off"
+        # firewall is confgured in vpn-gateway container
+        - name: FIREWALL
+          value: "off"
 
         configFileSecret: openvpn-config
 
@@ -76,24 +104,3 @@ spec:
       VPN_LOCAL_CIDRS: "10.0.0.0/8 192.168.0.0/16"
       NOT_ROUTED_TO_GATEWAY_CIDRS: "${CLUSTER_PODS_NETWORK_IP_POOL} ${CLUSTER_SERVICE_NETWORK_IP_POOL}"
 
-    webhook:
-      image:
-        repository: ghcr.io/angelnu/gateway-admision-controller
-        pullPolicy: Always
-        tag: latest
-      gatewayDefault: true
-      gatewayLabel: setGateway
-      gatewayAnnotation: setGateway
-      namespaceSelector:
-        label: "vpn-routed-gateway"
-
-    # -- settings to expose ports, usually through a VPN provider.
-    # NOTE: if you change it you will need to manually restart the gateway POD
-    # publicPorts:
-    # - hostname: qbittorrent
-    #   IP: 10
-    #   ports:
-    #   - type: udp
-    #     port: 18289
-    #   - type: tcp
-    #     port: 18289

@@ -1,0 +1,48 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-fedora
+  namespace: kubevirt
+spec:
+  running: true
+  template:
+    spec:
+      domain:
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: containerdisk
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
+        machine:
+          type: ""
+        resources:
+          requests:
+            memory: 1024M
+      readinessProbe:
+        exec:
+          command: ["cat", "/tmp/healthy.txt"]
+        failureThreshold: 10
+        initialDelaySeconds: 20
+        periodSeconds: 10
+        timeoutSeconds: 5
+      terminationGracePeriodSeconds: 180
+      volumes:
+      - name: containerdisk
+        containerDisk:
+          image: quay.io/containerdisks/fedora
+      - cloudInitNoCloud:
+          userData: |-
+            #cloud-config
+            password: fedora
+            user: fedora
+            chpasswd: { expire: False }
+            packages:
+              qemu-guest-agent
+            runcmd:
+              - ["touch", "/tmp/healthy.txt"]
+              - ["sudo", "chcon", "-t", "virt_qemu_ga_exec_t", "/tmp/healthy.txt"]
+              - ["sudo", "systemctl", "enable", "--now", "qemu-guest-agent"]
+        name: cloudinitdisk

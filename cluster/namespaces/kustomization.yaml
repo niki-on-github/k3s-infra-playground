@@ -8,3 +8,4 @@ resources:
   - minio-operator.yaml
   - vpn-apps.yaml
   - vpn-gateway.yaml
+  - kubevirt.yaml
