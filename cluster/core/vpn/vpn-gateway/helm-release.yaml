@@ -72,9 +72,9 @@ spec:
         livenessProbe:
           exec:
             command:
-              - sh
-              - -c
-              - if [ $$(wget -q -O- https://ipinfo.io/country) == '${SECRET_VPN_GATEWAY_COUNTRY_CODE}' ]; then exit 0; else exit $$?; fi
+              - "sh"
+              - "-c"
+              - "if wget -q -O- 'https://airvpn.org/api/whatismyip/' | grep -Eq '.airvpn.: true' ; then exit 0; else exit 1; fi"
           initialDelaySeconds: 30
           periodSeconds: 120
           failureThreshold: 3

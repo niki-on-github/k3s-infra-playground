@@ -6,7 +6,7 @@ metadata:
 spec:
   interval: 15m
   retryInterval: 2m0s
-  timeout: 5m
+  timeout: 15m
   path: "./cluster/core/monitoring"
   prune: true
   dependsOn:

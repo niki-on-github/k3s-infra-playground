@@ -11,6 +11,10 @@ go-task cluster:install
 ## Cheat Sheet
 
 ```bash
+git -c http.sslVerify=false clone [URL]
+```
+
+```bash
 flux delete kustomization apps
 flux reconcile kustomization apps
 ```
@@ -80,4 +84,8 @@ kubectl get vmis -A
 kubectl get virtualmachines -A
 virtctl ssh -n kubevirt vm-cirros
 kubectl delete vmis testvmi
+```
+
+```bash
+kubectl get events --watch -A | grep -E "(Warning|Error)" | grep -vE "(Readiness|MountVolume)"
 ```

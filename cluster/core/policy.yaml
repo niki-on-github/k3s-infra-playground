@@ -1,13 +1,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: longhorn
+  name: policy
   namespace: flux-system
 spec:
   interval: 15m
   retryInterval: 2m0s
-  timeout: 15m
-  path: "./cluster/core/storage/longhorn/operator"
+  timeout: 5m
+  path: "./cluster/core/policy"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -26,13 +26,6 @@ spec:
   healthChecks:
   - apiVersion: apps/v1
     kind: Deployment
-    name: longhorn-ui
-    namespace: storage
-  - apiVersion: apps/v1
-    kind: DaemonSet
-    name: longhorn-manager
-    namespace: storage
-  - apiVersion: apps/v1
-    kind: DaemonSet
-    name: longhorn-csi-plugin
-    namespace: storage
+    name: kyverno
+    namespace: policy
+

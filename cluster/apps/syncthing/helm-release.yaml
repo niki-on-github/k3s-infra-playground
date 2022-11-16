@@ -29,7 +29,7 @@ spec:
         ports:
           http:
             port: 8384
-      listdisc:
+      discovery:
         enabled: true
         type: LoadBalancer
         ports:
@@ -37,6 +37,10 @@ spec:
             enabled: true
             port: 21027
             protocol: UDP
+      listen:
+        enabled: true
+        type: LoadBalancer
+        ports:
           listen:
             enabled: true
             port: 22000

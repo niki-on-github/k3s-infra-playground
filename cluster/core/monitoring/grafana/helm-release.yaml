@@ -19,6 +19,8 @@ spec:
   dependsOn:
     - name: traefik
       namespace: networking
+    - name: prometheus-stack
+      namespace: monitoring
 
   values:
     nameOverride: *app
