@@ -1,6 +1,0 @@
-{ lib, ... }:
-{
-  networking = {
-    hostName = "nixos";
-  };
-}

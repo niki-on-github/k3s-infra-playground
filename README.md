@@ -89,3 +89,13 @@ kubectl delete vmis testvmi
 ```bash
 kubectl get events --watch -A | grep -E "(Warning|Error)" | grep -vE "(Readiness|MountVolume)"
 ```
+
+```bash
+kubectl get pods -A --show-labels
+```
+
+```bash
+kubectl drain $NODE_NAME --ignore-daemonsets=true --delete-emptydir-data=true --disable-eviction=true --grace-period=60 --pod-selector=app.kubernetes.io/instance!=longhorn,app.kubernetes.io/instance!=kyverno --timeout=300s
+# after reboot
+kubectl uncordon $NODE_NAME
+```

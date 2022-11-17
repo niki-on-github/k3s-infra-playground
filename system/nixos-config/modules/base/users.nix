@@ -20,6 +20,7 @@
           "input"
           "jackaudio"
           "kvm"
+          "libvirtd"
           "lp"
           "networkmanager"
           "scanner"

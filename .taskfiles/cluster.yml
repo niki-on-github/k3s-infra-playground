@@ -26,7 +26,7 @@ tasks:
           Ssh key file not found.
     vars:
       SOPS_AGE_KEY_FILE: /opt/k3s/.age/sops.agekey
-      PRIVATE_SSH_KEYFILE: /home/arch/.ssh/arch-testserver
+      PRIVATE_SSH_KEYFILE: /home/nix/.ssh/archserver01
       REPO_SSH_URL: ssh://git@git.server01.lan:222/r/k3s-infra-testing.git
 
   reconcile:
@@ -35,3 +35,9 @@ tasks:
       - flux reconcile -n flux-system source git flux-system || flux reconcile -n flux-system source git flux-system
       - flux reconcile -n flux-system kustomization flux-system || flux reconcile -n flux-system kustomization flux-system
 
+  shutdown:
+    desc: Shutdown cluster
+    cmds:
+      - kubectl get nodes -o name | sed 's/node\///g' | xargs -I{} kubectl drain {} --ignore-daemonsets=true --delete-emptydir-data=true --disable-eviction=true --grace-period=60 --timeout=300s --pod-selector=app.kubernetes.io/instance!=longhorn,app.kubernetes.io/instance!=kyverno
+      - sleep 10
+      - kubectl get nodes -o name | sed 's/node\///g' | xargs -I{} kubectl drain {} --ignore-daemonsets=true --delete-emptydir-data=true --disable-eviction=true --grace-period=60 --timeout=300s --pod-selector=app.kubernetes.io/instance!=kyverno

@@ -1,7 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, nixpkgs-unstable, ... }:
 
 {
-
   environment.systemPackages = with pkgs; [
     age
     docker-compose_2
@@ -10,15 +9,11 @@
     go-task
     htop
     jq
-    k3s
     k9s
-    kube-capacity
     kubectl
     nfs-utils
     openiscsi
     openssl_3
-    prometheus-node-exporter
-    promtail
     sops
     vim
     (python39.withPackages (p: with p; [
@@ -44,8 +39,10 @@
 
   services.openiscsi.name = "iscsid";
   services.openiscsi.enable = true;
-  services.promtail.enable = true;
+  # services.promtail.enable = true;
   services.prometheus.exporters.node.enable = true;
+  # services.k3s.package = nixpkgs-unstable.k3s;
+  services.k3s.package = pkgs.k3s;
   services.k3s.enable = true;
   services.k3s.role = "server";
   services.k3s.extraFlags = toString [

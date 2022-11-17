@@ -23,7 +23,7 @@
         allowDiscards = true;
     };
     secrets = {
-        "disk.key" = "/etc/secrets/initrd/disk.key";
+        "disk.key" = "/boot/disk.key";
     };
   };
 
@@ -52,15 +52,27 @@
       neededForBoot = true;
     };
 
+  fileSystems."/opt" = {
+    device = "/dev/mapper/system";
+    fsType = "btrfs";
+    options = [ "subvol=@opt" "compress=zstd" "noatime" ];
+  };
+
   fileSystems."/boot/efi" =
     { device = "/dev/disk/by-partlabel/boot";
       fsType = "vfat";
     };
 
-  fileSystems."/data" =
-    { device = "/dev/disk/by-partlabel/data";
-      fsType = "ext4";
-    };
+  fileSystems."/data" = {
+    device = "/dev/mapper/data";
+    fsType = "ext4";
+    encrypted = {
+        enable = true;
+        label = "data";
+        blkDev = "/dev/disk/by-partlabel/data";
+        keyFile = "/disk.key";
+      };
+  };
 
   swapDevices = [ ];
 
