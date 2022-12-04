@@ -1,7 +1,14 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
     docker-compose
+    (my-python.withPackages (p: with p; [
+      python3-docker-compose
+      cryptography
+      requests
+      docker
+      docker-compose
+    ]))
   ];
   virtualisation = {
     docker = {

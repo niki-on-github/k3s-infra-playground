@@ -1,4 +1,4 @@
-{ pkgs, nixpkgs-unstable, ... }:
+{ pkgs, nixpkgs-unstable, inputs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
@@ -16,7 +16,7 @@
     openssl_3
     sops
     vim
-    (python39.withPackages (p: with p; [
+    (my-python.withPackages (p: with p; [
       cryptography
     ]))
   ];

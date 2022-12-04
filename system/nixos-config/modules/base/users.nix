@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   users = {
     mutableUsers = true;
     users = {
-      nix = {
+      ${inputs.self.user} = {
         isNormalUser = true;
         description = "nix user";
         createHome = true;
@@ -36,5 +36,5 @@
     };
   };
 
-  nix.settings.trusted-users = [ "root" "nix" ];
+  nix.settings.trusted-users = [ "root" "${inputs.self.user}" ];
 }

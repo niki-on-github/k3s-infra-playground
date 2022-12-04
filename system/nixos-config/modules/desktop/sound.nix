@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   security.rtkit.enable = true;
@@ -17,15 +17,11 @@
     # 2. Enable JACK support
     package = pkgs.pulseaudioFull; # .override { jackaudioSupport = true; };
 
-    # While pulseaudio itself only has support for the
-    # SBC bluetooth codec there is out-of-tree support for AAC, APTX, APTX-HD and LDAC.
-    # NixOS 21.11, in 22.05 the bt functionality is included
-    # extraModules = [pkgs.pulseaudio-modules-bt];
     # For compatibility with 32-bit applications
     support32Bit = true;
   };
 
-  home-manager.users.nix.home.packages = with pkgs; [
+  home-manager.users.${inputs.self.user}.home.packages = with pkgs; [
     pamixer
   ];
 }

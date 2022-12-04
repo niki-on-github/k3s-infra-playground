@@ -8,6 +8,7 @@
     ./packages.nix
     ./security.nix
     ./system.nix
+    ./ssh.nix
     ./users.nix
     ./virtualisation.nix
   ];

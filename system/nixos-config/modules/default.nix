@@ -1,14 +1,15 @@
 builtins.listToAttrs (builtins.map
   (path: {
-    name = builtins.head (
-      let
-        b = builtins.baseNameOf path;
-        m = builtins.match "(.*)\\.nix" b;
-      in
-      if isNull m then [ b ] else m
-    );
+    name = (builtins.replaceStrings [(toString ./.) "/" ".nix"]  ["modules" "-" ""] (toString path));
     value = import path;
   }) [
   ./base
+  ./boot
+  ./apps/desktop
   ./apps/server/k3s.nix
+  ./vm/qemu.nix
+  ./desktop
+  ./desktop/manager/kde
+  ./desktop/manager/hyprland
+  ./desktop/manager/sway
   ])

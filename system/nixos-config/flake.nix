@@ -5,15 +5,12 @@
   inputs =
     {
       nixpkgs = {
-        url = "github:NixOS/nixpkgs/nixos-22.05";
+        # url = "github:NixOS/nixpkgs/nixos-22.11";
+        url = "github:nixos/nixpkgs/nixos-unstable";
       };
 
       nixpkgs-unstable = {
         url = "github:nixos/nixpkgs/nixos-unstable";
-      };
-
-      k3s-pinned = {
-        url = "github:nixos/nixpkgs/73994921df2b89021c1cbded66e8f057a41568c1";
       };
 
       sops-nix = {
@@ -26,28 +23,34 @@
       };
 
       home-manager = {
-        url = "github:nix-community/home-manager/release-22.05";
+        url = "github:nix-community/home-manager/release-22.11";
       };
 
       nur = {
         url = "github:nix-community/NUR";
       };
+
+      hyprland = {
+        url = "github:hyprwm/Hyprland";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
     };
 
-    outputs = { self, nixpkgs, nixpkgs-unstable, deploy-rs, home-manager, nur, sops-nix, k3s-pinned, ... } @ inputs :
+    outputs = { self, nixpkgs, nixpkgs-unstable, deploy-rs, home-manager, nur, sops-nix, hyprland, ... } @ inputs :
     let
       inherit (nixpkgs) lib;
       util = import ./util { inherit lib; };
-      overlays = [
+      overlays = lib.flatten [
         nur.overlay
-        (final: prev: { k3s = (import k3s-pinned { system = "${prev.system}"; config = { allowUnfree = true; }; }).k3s;})
+        (import ./overlays { inherit lib; }).overlays
       ];
-      nixosDeployments = util.genNixosConfigs {
+      nixosDeployments = util.generateNixosDeployments {
         inherit inputs;
         inherit deploy-rs;
         path = ./hosts;
         sharedModules = [
           { nixpkgs.overlays = overlays; }
+          hyprland.nixosModules.default
           sops-nix.nixosModules.sops
         ];
       };
@@ -56,6 +59,8 @@
 
       nixosModules = import ./modules;
       nixosProfiles = import ./profiles;
+
+      user = "nix";
 
       checks = builtins.mapAttrs
         (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;

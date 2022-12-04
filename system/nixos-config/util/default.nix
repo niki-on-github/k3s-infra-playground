@@ -15,7 +15,7 @@ rec {
 
   readVisibleDirectories = path: filterDirectories (readVisible path);
 
-  genNixosConfigs = { inputs, deploy-rs, path, sharedModules ? [ ], deployOptions ? { } }:
+  generateNixosDeployments = { inputs, deploy-rs, path, sharedModules ? [ ], deployOptions ? { } }:
     let
     systems = readVisibleDirectories path;
       hosts = lib.concatMap (system:
@@ -45,6 +45,7 @@ rec {
               specialArgs = { inherit inputs; };
         });
       nixosConfigurations = lib.listToAttrs (builtins.map buildConfig hosts);
+
       buildDeployment = { host, ... }:
         lib.nameValuePair host {
           hostname = host;

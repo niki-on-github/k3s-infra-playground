@@ -2,6 +2,6 @@
   imports = with inputs.self.nixosModules; [
     ./base.nix
 
-    k3s
+    modules-apps-server-k3s
   ];
 }

@@ -1,9 +1,9 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  boot.initrd.availableKernelModules = [ "nvme" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" "aesni_intel" "cryptd" ];
+  boot.initrd.availableKernelModules = [ "nvme" "ahci" "xhci_pci" "usbhid" "usb_storage" "virtio_pci" "sr_mod" "virtio_blk" "sd_mod" "sdhci_pci" "aesni_intel" "cryptd" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
@@ -63,18 +63,28 @@
       fsType = "vfat";
     };
 
-  fileSystems."/data" = {
-    device = "/dev/mapper/data";
-    fsType = "ext4";
-    encrypted = {
-        enable = true;
-        label = "data";
-        blkDev = "/dev/disk/by-partlabel/data";
-        keyFile = "/disk.key";
-      };
-  };
+  # fileSystems."/swap" =
+  #   { device = "/dev/mapper/system";
+  #     fsType = "btrfs";
+  #     options = [ "subvol=@swap" "compress=zstd" "noatime" ];
+  #   };
 
-  swapDevices = [ ];
+  # systemd.services = {
+  #   create-swapfile = {
+  #     serviceConfig.Type = "oneshot";
+  #     wantedBy = [ "swap-swapfile.swap" ];
+  #     script = ''
+  #       ${pkgs.coreutils}/bin/truncate -s 0 /swap/swapfile
+  #       ${pkgs.e2fsprogs}/bin/chattr +C /swap/swapfile
+  #       ${pkgs.btrfs-progs}/bin/btrfs property set /swap/swapfile compression none
+  #     '';
+  #   };
+  # };
 
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  # swapDevices = [{
+  #   device = "/swap/swapfile";
+  #   size = (1024 * 16) + (1024 * 2); # RAM size + 2 GB
+  # }];
+
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
