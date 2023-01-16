@@ -1,5 +1,6 @@
 {
   imports = [
+    ./backup.nix
     ./home.nix
     ./locale.nix
     ./network.nix

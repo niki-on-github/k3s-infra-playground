@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 0.2.2
+      version: 1.2.1
       interval: 1h
       sourceRef:
         kind: HelmRepository
@@ -30,8 +30,8 @@ spec:
 
     image:
       repository: ghcr.io/crazy-max/samba
+      tag: 4.16.8
       pullPolicy: Always
-      tag: 4.15.7
 
     service:
       main:
@@ -47,7 +47,7 @@ spec:
         externalIPs:
           - ${SVC_SAMBA_IP}
 
-    configmap:
+    configMaps:
       config:
         enabled: true
         data:

@@ -1,0 +1,1359 @@
++ unset GIT_COMMITTER_NAME GIT_COMMITTER_EMAIL GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL
++ renovate --dry-run="extract" --autodiscover
+ INFO: Autodiscovered repositories
+       "length": 2,
+       "repositories": ["r/k3s-infra-testing", "r/renovate-config"]
+ INFO: Repository started (repository=r/k3s-infra-testing)
+       "renovateVersion": "34.19.3"
+ INFO: Dependency extraction complete (repository=r/k3s-infra-testing, baseBranch=main)
+       "stats": {
+         "managers": {
+           "flux": {"fileCount": 32, "depCount": 38},
+           "helm-values": {"fileCount": 17, "depCount": 20},
+           "kubernetes": {"fileCount": 10, "depCount": 12},
+           "kustomize": {"fileCount": 2, "depCount": 3},
+           "regex": {"fileCount": 22, "depCount": 25}
+         },
+         "total": {"fileCount": 83, "depCount": 98}
+       }
+ WARN: GitHub token is required for some dependencies (repository=r/k3s-infra-testing)
+       "githubDeps": [
+         "fluxcd/flux2",
+         "rancher/system-upgrade-controller",
+         "rancher/system-upgrade-controller",
+         "kubevirt/containerized-data-importer",
+         "kubevirt/containerized-data-importer",
+         "kubevirt/kubevirt",
+         "kubevirt/kubevirt",
+         "istio/istio",
+         "kubernetes/dashboard",
+         "prometheus-community/helm-charts",
+         "traefik/traefik-helm-chart",
+         "minio/operator",
+         "k3s-io/k3s",
+         "k3s-io/k3s",
+         "fluxcd/flux2",
+         "istio/istio",
+         "kubernetes/dashboard",
+         "prometheus-community/helm-charts",
+         "traefik/traefik-helm-chart",
+         "minio/operator",
+         "k3s-io/k3s",
+         "k3s-io/k3s",
+         "fluxcd/flux2"
+       ]
+ INFO: Extracted dependencies (repository=r/k3s-infra-testing)
+       "packageFiles": {
+         "flux": [
+           {
+             "packageFile": "cluster/apps/drone/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "postgresql",
+                 "currentValue": "12.1.9",
+                 "datasource": "helm",
+                 "registryUrls": ["https://charts.bitnami.com/bitnami"],
+                 "depIndex": 0
+               },
+               {
+                 "depName": "drone",
+                 "currentValue": "0.6.4",
+                 "datasource": "helm",
+                 "registryUrls": ["https://charts.drone.io"],
+                 "depIndex": 1
+               },
+               {
+                 "depName": "drone-runner-kube",
+                 "currentValue": "0.1.10",
+                 "datasource": "helm",
+                 "registryUrls": ["https://charts.drone.io"],
+                 "depIndex": 2
+               },
+               {
+                 "depName": "drone-runner-docker",
+                 "currentValue": "0.6.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://charts.drone.io"],
+                 "depIndex": 3
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/apps/gitea/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "gitea",
+                 "currentValue": "6.0.5",
+                 "datasource": "helm",
+                 "registryUrls": ["https://dl.gitea.io/charts/"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/apps/homeassistant/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "postgresql",
+                 "currentValue": "12.1.9",
+                 "datasource": "helm",
+                 "registryUrls": ["https://charts.bitnami.com/bitnami"],
+                 "depIndex": 0
+               },
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 1
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/apps/mosquitto/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/apps/paperless/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 0
+               },
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 1
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/apps/syncthing/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/apps/vaultwarden/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/apps/wikijs/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "postgresql",
+                 "currentValue": "12.1.9",
+                 "datasource": "helm",
+                 "registryUrls": ["https://charts.bitnami.com/bitnami"],
+                 "depIndex": 0
+               },
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 1
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/apps/zigbee2mqtt/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/monitoring/goldilocks/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "goldilocks",
+                 "currentValue": "6.4.0",
+                 "datasource": "helm",
+                 "registryUrls": ["https://charts.fairwinds.com/stable"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/monitoring/grafana/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "grafana",
+                 "currentValue": "6.50.0",
+                 "datasource": "helm",
+                 "registryUrls": ["https://grafana.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/monitoring/kubernetes-dashboard/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "aio/deploy/helm-chart/kubernetes-dashboard",
+                 "datasource": "helm",
+                 "skipReason": "unknown-registry",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/monitoring/loki-stack/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "loki-stack",
+                 "currentValue": "2.8.9",
+                 "datasource": "helm",
+                 "registryUrls": ["https://grafana.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/monitoring/metrics-server/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "metrics-server",
+                 "currentValue": "3.8.3",
+                 "datasource": "helm",
+                 "registryUrls": ["https://kubernetes-sigs.github.io/metrics-server"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/monitoring/prometheus-stack/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "kube-prometheus-stack",
+                 "currentValue": "44.0.0",
+                 "datasource": "helm",
+                 "registryUrls": [
+                   "https://prometheus-community.github.io/helm-charts"
+                 ],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/monitoring/thanos/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "thanos",
+                 "currentValue": "11.6.8",
+                 "datasource": "helm",
+                 "registryUrls": ["https://charts.bitnami.com/bitnami"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/monitoring/uptime-kuma/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/networking/authentik/operator/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "authentik",
+                 "currentValue": "2022.12.4",
+                 "datasource": "helm",
+                 "registryUrls": ["https://charts.goauthentik.io"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/networking/cert-manager/operator/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "cert-manager",
+                 "currentValue": "v1.11.0",
+                 "datasource": "helm",
+                 "registryUrls": ["https://charts.jetstack.io/"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/networking/istio-operator/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "manifests/charts/istio-operator",
+                 "datasource": "helm",
+                 "skipReason": "unknown-registry",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/networking/traefik/operator/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "traefik",
+                 "currentValue": "20.8.0",
+                 "datasource": "helm",
+                 "registryUrls": ["https://helm.traefik.io/traefik"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/networking/whoami/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/policy/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "kyverno",
+                 "currentValue": "2.6.5",
+                 "datasource": "helm",
+                 "registryUrls": ["https://kyverno.github.io/kyverno/"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/csi-driver-nfs/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "csi-driver-nfs",
+                 "currentValue": "v4.1.0",
+                 "datasource": "helm",
+                 "registryUrls": [
+                   "https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts"
+                 ],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/docker-registry/operator/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/longhorn/operator/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "longhorn",
+                 "currentValue": "1.4.0",
+                 "datasource": "helm",
+                 "registryUrls": ["https://charts.longhorn.io"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/minio/operator/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "operator",
+                 "currentValue": "4.5.7",
+                 "datasource": "helm",
+                 "registryUrls": ["https://operator.min.io/"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/nfs-server/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/samba-server/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/vpn/vpn-gateway/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "pod-gateway",
+                 "currentValue": "6.0.0",
+                 "datasource": "helm",
+                 "registryUrls": ["https://angelnu.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/vpn-apps/jdownloader/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/vpn-apps/nzbget/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "app-template",
+                 "currentValue": "1.2.1",
+                 "datasource": "helm",
+                 "registryUrls": ["https://bjw-s.github.io/helm-charts"],
+                 "depIndex": 0
+               }
+             ]
+           }
+         ],
+         "helm-values": [
+           {
+             "packageFile": "cluster/apps/mosquitto/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "eclipse-mosquitto",
+                 "currentValue": "2.0.15",
+                 "datasource": "docker",
+                 "replaceString": "2.0.15",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/apps/syncthing/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "syncthing/syncthing",
+                 "currentValue": "1.23.0",
+                 "datasource": "docker",
+                 "replaceString": "1.23.0",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/apps/vaultwarden/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "vaultwarden/server",
+                 "currentValue": "1.27.0",
+                 "datasource": "docker",
+                 "replaceString": "1.27.0",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/apps/zigbee2mqtt/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "ghcr.io/koenkk/zigbee2mqtt",
+                 "currentValue": "1.29.2",
+                 "datasource": "docker",
+                 "replaceString": "1.29.2",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/monitoring/uptime-kuma/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "louislam/uptime-kuma",
+                 "currentValue": "1.19.4",
+                 "datasource": "docker",
+                 "replaceString": "1.19.4",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/networking/whoami/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "traefik/traefikee-webapp-demo",
+                 "currentValue": "v2",
+                 "datasource": "docker",
+                 "replaceString": "v2",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/docker-registry/operator/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "registry",
+                 "currentValue": "2",
+                 "datasource": "docker",
+                 "replaceString": "2",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/longhorn/storage/job.yaml",
+             "deps": [
+               {
+                 "depName": "ghcr.io/niki-on-github/longhorn-volume-manager",
+                 "currentValue": "dev",
+                 "replaceString": "ghcr.io/niki-on-github/longhorn-volume-manager:dev",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/nfs-server/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "ghcr.io/niki-on-github/nfs-server",
+                 "currentValue": "dev",
+                 "datasource": "docker",
+                 "replaceString": "dev",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/samba-server/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "ghcr.io/crazy-max/samba",
+                 "currentValue": "4.16.8",
+                 "datasource": "docker",
+                 "replaceString": "4.16.8",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/system-upgrade/system-upgrade-controller/plans/agent.yaml",
+             "deps": [
+               {
+                 "depName": "rancher/k3s-upgrade",
+                 "replaceString": "rancher/k3s-upgrade",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depIndex": 0
+               },
+               {
+                 "depName": "rancher/k3s-upgrade",
+                 "replaceString": "rancher/k3s-upgrade",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depIndex": 1
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/system-upgrade/system-upgrade-controller/plans/server.yaml",
+             "deps": [
+               {
+                 "depName": "rancher/k3s-upgrade",
+                 "replaceString": "rancher/k3s-upgrade",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/vpn/vpn-gateway/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "ghcr.io/angelnu/pod-gateway",
+                 "currentValue": "latest",
+                 "datasource": "docker",
+                 "replaceString": "latest",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 0
+               },
+               {
+                 "depName": "ghcr.io/angelnu/gateway-admision-controller",
+                 "currentValue": "latest",
+                 "datasource": "docker",
+                 "replaceString": "latest",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 1
+               },
+               {
+                 "depName": "docker.io/qmcgaw/gluetun",
+                 "currentValue": "latest",
+                 "datasource": "docker",
+                 "replaceString": "latest",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 2
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/vms/vm-example-fedora/virtual-machine.yaml",
+             "deps": [
+               {
+                 "depName": "quay.io/containerdisks/fedora",
+                 "replaceString": "quay.io/containerdisks/fedora",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/vpn-apps/jdownloader/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "jlesage/jdownloader-2",
+                 "currentValue": "v23.01.2",
+                 "datasource": "docker",
+                 "replaceString": "v23.01.2",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/vpn-apps/nzbget/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "ghcr.io/linuxserver/nzbget",
+                 "currentValue": "latest",
+                 "datasource": "docker",
+                 "replaceString": "latest",
+                 "versioning": "docker",
+                 "autoReplaceStringTemplate": "{{newValue}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/vpn-apps/vpn-terminal/terminal.yaml",
+             "deps": [
+               {
+                 "depName": "ghcr.io/jonlabelle/network-tools",
+                 "replaceString": "ghcr.io/jonlabelle/network-tools",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depIndex": 0
+               }
+             ]
+           }
+         ],
+         "kubernetes": [
+           {
+             "packageFile": "cluster/core/monitoring/kubernetes-dashboard/cluster-role-binding.yaml",
+             "deps": [
+               {
+                 "depName": "ClusterRoleBinding",
+                 "currentValue": "rbac.authorization.k8s.io/v1",
+                 "datasource": "kubernetes-api",
+                 "versioning": "kubernetes-api",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/csi-driver-nfs/storage-class.yaml",
+             "deps": [
+               {
+                 "depName": "StorageClass",
+                 "currentValue": "storage.k8s.io/v1",
+                 "datasource": "kubernetes-api",
+                 "versioning": "kubernetes-api",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/longhorn/storage/job.yaml",
+             "deps": [
+               {
+                 "depName": "ghcr.io/niki-on-github/longhorn-volume-manager",
+                 "currentValue": "dev",
+                 "replaceString": "ghcr.io/niki-on-github/longhorn-volume-manager:dev",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/longhorn/storage/rbac/clusterrole.yaml",
+             "deps": [
+               {
+                 "depName": "ClusterRole",
+                 "currentValue": "rbac.authorization.k8s.io/v1",
+                 "datasource": "kubernetes-api",
+                 "versioning": "kubernetes-api",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/longhorn/storage/rbac/clusterrolebinding.yaml",
+             "deps": [
+               {
+                 "depName": "ClusterRoleBinding",
+                 "currentValue": "rbac.authorization.k8s.io/v1",
+                 "datasource": "kubernetes-api",
+                 "versioning": "kubernetes-api",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/system-upgrade/system-upgrade-controller/plans/agent.yaml",
+             "deps": [
+               {
+                 "depName": "rancher/k3s-upgrade",
+                 "replaceString": "rancher/k3s-upgrade",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depIndex": 0
+               },
+               {
+                 "depName": "rancher/k3s-upgrade",
+                 "replaceString": "rancher/k3s-upgrade",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depIndex": 1
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/system-upgrade/system-upgrade-controller/plans/server.yaml",
+             "deps": [
+               {
+                 "depName": "rancher/k3s-upgrade",
+                 "replaceString": "rancher/k3s-upgrade",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/vpn/network-policy.yaml",
+             "deps": [
+               {
+                 "depName": "NetworkPolicy",
+                 "currentValue": "networking.k8s.io/v1",
+                 "datasource": "kubernetes-api",
+                 "versioning": "kubernetes-api",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/vms/vm-example-fedora/virtual-machine.yaml",
+             "deps": [
+               {
+                 "depName": "quay.io/containerdisks/fedora",
+                 "replaceString": "quay.io/containerdisks/fedora",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depIndex": 0
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/vpn-apps/vpn-terminal/terminal.yaml",
+             "deps": [
+               {
+                 "depName": "ghcr.io/jonlabelle/network-tools",
+                 "replaceString": "ghcr.io/jonlabelle/network-tools",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depIndex": 0
+               },
+               {
+                 "depName": "Deployment",
+                 "currentValue": "apps/v1",
+                 "datasource": "kubernetes-api",
+                 "versioning": "kubernetes-api",
+                 "depIndex": 1
+               }
+             ]
+           }
+         ],
+         "kustomize": [
+           {
+             "packageFile": "cluster/bootstrap/kustomization.yaml",
+             "deps": [
+               {
+                 "currentValue": "v0.38.3",
+                 "datasource": "github-tags",
+                 "depName": "fluxcd/flux2",
+                 "depType": "Kustomization",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ]
+           },
+           {
+             "packageFile": "cluster/core/system-upgrade/system-upgrade-controller/kustomization.yaml",
+             "deps": [
+               {
+                 "currentValue": "v0.10.0",
+                 "datasource": "github-tags",
+                 "depName": "rancher/system-upgrade-controller",
+                 "depType": "Kustomization",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               },
+               {
+                 "depName": "rancher/system-upgrade-controller",
+                 "currentValue": "v0.10.0",
+                 "datasource": "docker",
+                 "replaceString": "v0.10.0",
+                 "depType": "Kustomization",
+                 "depIndex": 1
+               }
+             ]
+           }
+         ],
+         "regex": [
+           {
+             "packageFile": "cluster/apps/homeassistant/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "homeassistant/home-assistant",
+                 "currentValue": "2022.9.7",
+                 "datasource": "docker",
+                 "replaceString": "# renovate: datasource=docker\n      repository: homeassistant/home-assistant\n      tag: 2022.9.7\n",
+                 "depIndex": 0
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=docker\\n.*: ?(?<depName>.*?)\\n.*: ?(?<currentValue>.*?)\\n"
+             ],
+             "datasourceTemplate": "docker"
+           },
+           {
+             "packageFile": "cluster/apps/paperless/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "ghcr.io/paperless-ngx/paperless-ngx",
+                 "currentValue": "1.8.0",
+                 "datasource": "docker",
+                 "replaceString": "# renovate: datasource=docker\n      repository: ghcr.io/paperless-ngx/paperless-ngx\n      tag: 1.8.0\n",
+                 "depIndex": 0
+               },
+               {
+                 "depName": "docker.io/library/redis",
+                 "currentValue": "7.0.5",
+                 "datasource": "docker",
+                 "replaceString": "# renovate: datasource=docker\n      repository: docker.io/library/redis\n      tag: 7.0.5\n",
+                 "depIndex": 1
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=docker\\n.*: ?(?<depName>.*?)\\n.*: ?(?<currentValue>.*?)\\n"
+             ],
+             "datasourceTemplate": "docker"
+           },
+           {
+             "packageFile": "cluster/apps/wikijs/helm-release.yaml",
+             "deps": [
+               {
+                 "depName": "ghcr.io/requarks/wiki",
+                 "currentValue": "2.5.289",
+                 "datasource": "docker",
+                 "replaceString": "# renovate: datasource=docker\n      repository: ghcr.io/requarks/wiki\n      tag: 2.5.289\n",
+                 "depIndex": 0
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=docker\\n.*: ?(?<depName>.*?)\\n.*: ?(?<currentValue>.*?)\\n"
+             ],
+             "datasourceTemplate": "docker"
+           },
+           {
+             "packageFile": "cluster/core/system-upgrade/kustomization.yaml",
+             "deps": [
+               {
+                 "depName": "rancher/system-upgrade-controller",
+                 "currentValue": "v0.10.0",
+                 "datasource": "github-releases",
+                 "replaceString": "- https://github.com/rancher/system-upgrade-controller/releases/download/v0.10.0/",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "- (\\w+://)?(raw\\.)?github(usercontent)?\\.com\\/(?<depName>[\\w\\-_]+\\/[\\w\\-_]+)\\/(.+\\/)?(?<currentValue>v?[\\d+\\.]+)\\/"
+             ],
+             "datasourceTemplate": "github-releases"
+           },
+           {
+             "packageFile": "cluster/core/vms/containerized-data-importer/kustomization.yaml",
+             "deps": [
+               {
+                 "depName": "kubevirt/containerized-data-importer",
+                 "currentValue": "v1.55.2",
+                 "datasource": "github-releases",
+                 "replaceString": "- https://github.com/kubevirt/containerized-data-importer/releases/download/v1.55.2/",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               },
+               {
+                 "depName": "kubevirt/containerized-data-importer",
+                 "currentValue": "v1.55.2",
+                 "datasource": "github-releases",
+                 "replaceString": "- https://github.com/kubevirt/containerized-data-importer/releases/download/v1.55.2/",
+                 "depIndex": 1,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "- (\\w+://)?(raw\\.)?github(usercontent)?\\.com\\/(?<depName>[\\w\\-_]+\\/[\\w\\-_]+)\\/(.+\\/)?(?<currentValue>v?[\\d+\\.]+)\\/"
+             ],
+             "datasourceTemplate": "github-releases"
+           },
+           {
+             "packageFile": "cluster/core/vms/kubevirt/kustomization.yaml",
+             "deps": [
+               {
+                 "depName": "kubevirt/kubevirt",
+                 "currentValue": "v0.58.0",
+                 "datasource": "github-releases",
+                 "replaceString": "- https://github.com/kubevirt/kubevirt/releases/download/v0.58.0/",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               },
+               {
+                 "depName": "kubevirt/kubevirt",
+                 "currentValue": "v0.58.0",
+                 "datasource": "github-releases",
+                 "replaceString": "- https://github.com/kubevirt/kubevirt/releases/download/v0.58.0/",
+                 "depIndex": 1,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "- (\\w+://)?(raw\\.)?github(usercontent)?\\.com\\/(?<depName>[\\w\\-_]+\\/[\\w\\-_]+)\\/(.+\\/)?(?<currentValue>v?[\\d+\\.]+)\\/"
+             ],
+             "datasourceTemplate": "github-releases"
+           },
+           {
+             "packageFile": "cluster/charts/git/istio-charts.yaml",
+             "deps": [
+               {
+                 "depName": "istio/istio",
+                 "currentValue": "1.14.3",
+                 "datasource": "github-releases",
+                 "replaceString": "# renovate: datasource=github-releases depName=istio/istio\n    tag: 1.14.3\n",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\n.*: ?(?<currentValue>.*?)\\n"
+             ]
+           },
+           {
+             "packageFile": "cluster/charts/git/kubernetes-dashboard-charts.yaml",
+             "deps": [
+               {
+                 "depName": "kubernetes/dashboard",
+                 "currentValue": "v2.7.0",
+                 "datasource": "github-releases",
+                 "replaceString": "# renovate: datasource=github-releases depName=kubernetes/dashboard\n    tag: v2.7.0\n",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\n.*: ?(?<currentValue>.*?)\\n"
+             ]
+           },
+           {
+             "packageFile": "cluster/core/monitoring/prometheus-stack/crds.yaml",
+             "deps": [
+               {
+                 "depName": "prometheus-community/helm-charts",
+                 "currentValue": "kube-prometheus-stack-40.0.0",
+                 "datasource": "github-releases",
+                 "replaceString": "# renovate: datasource=github-releases depName=prometheus-community/helm-charts\n    tag: kube-prometheus-stack-40.0.0\n",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\n.*: ?(?<currentValue>.*?)\\n"
+             ]
+           },
+           {
+             "packageFile": "cluster/core/networking/traefik/operator/crds.yaml",
+             "deps": [
+               {
+                 "depName": "traefik/traefik-helm-chart",
+                 "currentValue": "v10.24.3",
+                 "datasource": "github-releases",
+                 "replaceString": "# renovate: datasource=github-releases depName=traefik/traefik-helm-chart\n    tag: v10.24.3\n",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\n.*: ?(?<currentValue>.*?)\\n"
+             ]
+           },
+           {
+             "packageFile": "cluster/core/storage/minio/operator/crds.yaml",
+             "deps": [
+               {
+                 "depName": "minio/operator",
+                 "currentValue": "v4.5.7",
+                 "datasource": "github-releases",
+                 "replaceString": "# renovate: datasource=github-releases depName=minio/operator\n    tag: v4.5.7\n",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\n.*: ?(?<currentValue>.*?)\\n"
+             ]
+           },
+           {
+             "packageFile": "cluster/core/system-upgrade/system-upgrade-controller/plans/agent.yaml",
+             "deps": [
+               {
+                 "depName": "k3s-io/k3s",
+                 "currentValue": "\"v1.25.3+k3s1\"",
+                 "datasource": "github-releases",
+                 "replaceString": "# renovate: datasource=github-releases depName=k3s-io/k3s\n  version: \"v1.25.3+k3s1\"\n",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\n.*: ?(?<currentValue>.*?)\\n"
+             ]
+           },
+           {
+             "packageFile": "cluster/core/system-upgrade/system-upgrade-controller/plans/server.yaml",
+             "deps": [
+               {
+                 "depName": "k3s-io/k3s",
+                 "currentValue": "\"v1.25.3+k3s1\"",
+                 "datasource": "github-releases",
+                 "replaceString": "# renovate: datasource=github-releases depName=k3s-io/k3s\n  version: \"v1.25.3+k3s1\"\n",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\n.*: ?(?<currentValue>.*?)\\n"
+             ]
+           },
+           {
+             "packageFile": "cluster/flux/flux-system/flux-installation.yaml",
+             "deps": [
+               {
+                 "depName": "fluxcd/flux2",
+                 "currentValue": "\"v0.38.3\"",
+                 "datasource": "github-releases",
+                 "replaceString": "# renovate: datasource=github-releases depName=fluxcd/flux2\n    tag: \"v0.38.3\"\n",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\n.*: ?(?<currentValue>.*?)\\n"
+             ]
+           },
+           {
+             "packageFile": "cluster/charts/git/istio-charts.yaml",
+             "deps": [
+               {
+                 "depName": "istio/istio",
+                 "currentValue": "1.14.3",
+                 "datasource": "github-releases",
+                 "versioning": "semver",
+                 "extractVersion": "",
+                 "replaceString": "# renovate: datasource=github-releases depName=istio/istio\n    tag: 1.14.3",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*=?))?( versionTemplate=(?<versionTemplate>.*=?))?\\n.*: ?(\"?(?<currentValue>[^\"\\n]+=?)\"?)"
+             ],
+             "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+             "extractVersionTemplate": "{{#if versionTemplate}}{{{versionTemplate}}}{{else}}{{/if}}"
+           },
+           {
+             "packageFile": "cluster/charts/git/kubernetes-dashboard-charts.yaml",
+             "deps": [
+               {
+                 "depName": "kubernetes/dashboard",
+                 "currentValue": "v2.7.0",
+                 "datasource": "github-releases",
+                 "versioning": "semver",
+                 "extractVersion": "",
+                 "replaceString": "# renovate: datasource=github-releases depName=kubernetes/dashboard\n    tag: v2.7.0",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*=?))?( versionTemplate=(?<versionTemplate>.*=?))?\\n.*: ?(\"?(?<currentValue>[^\"\\n]+=?)\"?)"
+             ],
+             "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+             "extractVersionTemplate": "{{#if versionTemplate}}{{{versionTemplate}}}{{else}}{{/if}}"
+           },
+           {
+             "packageFile": "cluster/core/monitoring/prometheus-stack/crds.yaml",
+             "deps": [
+               {
+                 "depName": "prometheus-community/helm-charts",
+                 "currentValue": "kube-prometheus-stack-40.0.0",
+                 "datasource": "github-releases",
+                 "versioning": "semver",
+                 "extractVersion": "",
+                 "replaceString": "# renovate: datasource=github-releases depName=prometheus-community/helm-charts\n    tag: kube-prometheus-stack-40.0.0",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*=?))?( versionTemplate=(?<versionTemplate>.*=?))?\\n.*: ?(\"?(?<currentValue>[^\"\\n]+=?)\"?)"
+             ],
+             "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+             "extractVersionTemplate": "{{#if versionTemplate}}{{{versionTemplate}}}{{else}}{{/if}}"
+           },
+           {
+             "packageFile": "cluster/core/networking/traefik/operator/crds.yaml",
+             "deps": [
+               {
+                 "depName": "traefik/traefik-helm-chart",
+                 "currentValue": "v10.24.3",
+                 "datasource": "github-releases",
+                 "versioning": "semver",
+                 "extractVersion": "",
+                 "replaceString": "# renovate: datasource=github-releases depName=traefik/traefik-helm-chart\n    tag: v10.24.3",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*=?))?( versionTemplate=(?<versionTemplate>.*=?))?\\n.*: ?(\"?(?<currentValue>[^\"\\n]+=?)\"?)"
+             ],
+             "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+             "extractVersionTemplate": "{{#if versionTemplate}}{{{versionTemplate}}}{{else}}{{/if}}"
+           },
+           {
+             "packageFile": "cluster/core/storage/minio/operator/crds.yaml",
+             "deps": [
+               {
+                 "depName": "minio/operator",
+                 "currentValue": "v4.5.7",
+                 "datasource": "github-releases",
+                 "versioning": "semver",
+                 "extractVersion": "",
+                 "replaceString": "# renovate: datasource=github-releases depName=minio/operator\n    tag: v4.5.7",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*=?))?( versionTemplate=(?<versionTemplate>.*=?))?\\n.*: ?(\"?(?<currentValue>[^\"\\n]+=?)\"?)"
+             ],
+             "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+             "extractVersionTemplate": "{{#if versionTemplate}}{{{versionTemplate}}}{{else}}{{/if}}"
+           },
+           {
+             "packageFile": "cluster/core/system-upgrade/system-upgrade-controller/plans/agent.yaml",
+             "deps": [
+               {
+                 "depName": "k3s-io/k3s",
+                 "currentValue": "v1.25.3+k3s1",
+                 "datasource": "github-releases",
+                 "versioning": "semver",
+                 "extractVersion": "",
+                 "replaceString": "# renovate: datasource=github-releases depName=k3s-io/k3s\n  version: \"v1.25.3+k3s1\"",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*=?))?( versionTemplate=(?<versionTemplate>.*=?))?\\n.*: ?(\"?(?<currentValue>[^\"\\n]+=?)\"?)"
+             ],
+             "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+             "extractVersionTemplate": "{{#if versionTemplate}}{{{versionTemplate}}}{{else}}{{/if}}"
+           },
+           {
+             "packageFile": "cluster/core/system-upgrade/system-upgrade-controller/plans/server.yaml",
+             "deps": [
+               {
+                 "depName": "k3s-io/k3s",
+                 "currentValue": "v1.25.3+k3s1",
+                 "datasource": "github-releases",
+                 "versioning": "semver",
+                 "extractVersion": "",
+                 "replaceString": "# renovate: datasource=github-releases depName=k3s-io/k3s\n  version: \"v1.25.3+k3s1\"",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*=?))?( versionTemplate=(?<versionTemplate>.*=?))?\\n.*: ?(\"?(?<currentValue>[^\"\\n]+=?)\"?)"
+             ],
+             "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+             "extractVersionTemplate": "{{#if versionTemplate}}{{{versionTemplate}}}{{else}}{{/if}}"
+           },
+           {
+             "packageFile": "cluster/flux/flux-system/flux-installation.yaml",
+             "deps": [
+               {
+                 "depName": "fluxcd/flux2",
+                 "currentValue": "v0.38.3",
+                 "datasource": "github-releases",
+                 "versioning": "semver",
+                 "extractVersion": "",
+                 "replaceString": "# renovate: datasource=github-releases depName=fluxcd/flux2\n    tag: \"v0.38.3\"",
+                 "depIndex": 0,
+                 "skipReason": "github-token-required"
+               }
+             ],
+             "matchStrings": [
+               "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*=?))?( versionTemplate=(?<versionTemplate>.*=?))?\\n.*: ?(\"?(?<currentValue>[^\"\\n]+=?)\"?)"
+             ],
+             "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+             "extractVersionTemplate": "{{#if versionTemplate}}{{{versionTemplate}}}{{else}}{{/if}}"
+           }
+         ]
+       }
+ INFO: Repository finished (repository=r/k3s-infra-testing)
+       "cloned": true,
+       "durationMs": 5860
+ INFO: Repository started (repository=r/renovate-config)
+       "renovateVersion": "34.19.3"
+ INFO: Dependency extraction complete (repository=r/renovate-config, baseBranch=main)
+       "stats": {
+         "managers": {"droneci": {"fileCount": 1, "depCount": 2}},
+         "total": {"fileCount": 1, "depCount": 2}
+       }
+ INFO: Extracted dependencies (repository=r/renovate-config)
+       "packageFiles": {
+         "droneci": [
+           {
+             "packageFile": ".drone.yml",
+             "deps": [
+               {
+                 "depName": "renovate/renovate",
+                 "currentValue": "34.19.3",
+                 "replaceString": "renovate/renovate:34.19.3",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depType": "docker",
+                 "depIndex": 0
+               },
+               {
+                 "depName": "renovate/renovate",
+                 "currentValue": "34.19.3",
+                 "replaceString": "renovate/renovate:34.19.3",
+                 "autoReplaceStringTemplate": "{{depName}}{{#if newValue}}:{{newValue}}{{/if}}{{#if newDigest}}@{{newDigest}}{{/if}}",
+                 "datasource": "docker",
+                 "depType": "docker",
+                 "depIndex": 1
+               }
+             ]
+           }
+         ]
+       }
+ INFO: Repository finished (repository=r/renovate-config)
+       "cloned": true,
+       "durationMs": 2529

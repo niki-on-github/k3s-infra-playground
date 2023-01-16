@@ -9,9 +9,8 @@ spec:
 
   chart:
     spec:
-      # renovate: registryUrl=https://operator.min.io/
       chart: operator
-      version: 4.5.2
+      version: 4.5.7
       interval: 15m
       sourceRef:
         kind: HelmRepository

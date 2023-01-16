@@ -8,7 +8,8 @@ spec:
   interval: 30m
   url: https://github.com/istio/istio.git
   ref:
-    tag: 1.14.3
+    # renovate: datasource=github-releases depName=istio/istio
+    tag: 1.16.1
   ignore: |
     # exclude all
     /*

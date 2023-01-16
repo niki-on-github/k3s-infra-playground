@@ -8,9 +8,8 @@ spec:
   interval: 1h
   chart:
     spec:
-      # renovate: registryUrl=https://dl.gitea.io/charts/
       chart: gitea
-      version: 6.0.1
+      version: 6.0.5
       interval: 1h
       sourceRef:
         kind: HelmRepository

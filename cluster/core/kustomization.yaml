@@ -4,7 +4,7 @@ resources:
   - policy.yaml
   - networking
   - storage.yaml
-  # - system-upgrade
+  # - system-upgrade # does not work on NixOS
   - vpn
   - monitoring.yaml
   - vms

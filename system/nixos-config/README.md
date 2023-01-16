@@ -1,7 +1,7 @@
 # NixOS config
 
-## Installation
+## Setup
 
 ```bash
-sudo nixos-rebuild switch  --flake '.#server' --upgrade
+sudo nixos-rebuild switch  --flake '.#server1' --upgrade
 ```

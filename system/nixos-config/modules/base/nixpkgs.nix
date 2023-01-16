@@ -9,6 +9,7 @@
     '')
     git
     htop
+    nvtop
     rsync
     vim
     (my-python.withPackages (p: with p; [

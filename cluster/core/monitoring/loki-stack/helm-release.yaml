@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: loki-stack
-      version: 2.8.2
+      version: 2.8.9
       interval: 1h
       sourceRef:
         kind: HelmRepository
@@ -22,7 +22,6 @@ spec:
 
   values:
     loki:
-      # fullnameOverride: loki
       enabled: true
       persistence:
         enabled: true

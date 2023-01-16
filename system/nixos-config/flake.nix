@@ -5,8 +5,7 @@
   inputs =
     {
       nixpkgs = {
-        # url = "github:NixOS/nixpkgs/nixos-22.11";
-        url = "github:nixos/nixpkgs/nixos-unstable";
+        url = "github:NixOS/nixpkgs/nixos-22.11";
       };
 
       nixpkgs-unstable = {
@@ -29,14 +28,9 @@
       nur = {
         url = "github:nix-community/NUR";
       };
-
-      hyprland = {
-        url = "github:hyprwm/Hyprland";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
     };
 
-    outputs = { self, nixpkgs, nixpkgs-unstable, deploy-rs, home-manager, nur, sops-nix, hyprland, ... } @ inputs :
+    outputs = { self, nixpkgs, nixpkgs-unstable, deploy-rs, home-manager, nur, sops-nix, ... } @ inputs :
     let
       inherit (nixpkgs) lib;
       util = import ./util { inherit lib; };
@@ -50,7 +44,6 @@
         path = ./hosts;
         sharedModules = [
           { nixpkgs.overlays = overlays; }
-          hyprland.nixosModules.default
           sops-nix.nixosModules.sops
         ];
       };

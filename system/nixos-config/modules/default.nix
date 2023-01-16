@@ -4,12 +4,5 @@ builtins.listToAttrs (builtins.map
     value = import path;
   }) [
   ./base
-  ./boot
-  ./apps/desktop
   ./apps/server/k3s.nix
-  ./vm/qemu.nix
-  ./desktop
-  ./desktop/manager/kde
-  ./desktop/manager/hyprland
-  ./desktop/manager/sway
   ])

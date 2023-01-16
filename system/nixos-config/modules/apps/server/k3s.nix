@@ -3,7 +3,7 @@
 {
   environment.systemPackages = with pkgs; [
     age
-    docker-compose_2
+    docker-compose
     fluxcd
     git
     go-task
@@ -35,7 +35,7 @@
   services.openssh.permitRootLogin = "no";
 
   virtualisation.docker.enable = true;
-  networking.firewall.allowedTCPPorts = [ 6443 10250 ];
+  networking.firewall.allowedTCPPorts = [ 6443 8898 8899 10250 ];
 
   services.openiscsi.name = "iscsid";
   services.openiscsi.enable = true;

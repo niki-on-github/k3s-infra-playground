@@ -7,7 +7,6 @@ spec:
   interval: 15m
   chart:
     spec:
-      # renovate: registryUrl=https://kubernetes.github.io/dashboard
       chart: aio/deploy/helm-chart/kubernetes-dashboard
       sourceRef:
         kind: GitRepository

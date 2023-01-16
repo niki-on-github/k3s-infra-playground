@@ -59,13 +59,10 @@
     options = [ "subvol=@swap" "compress=zstd" "noatime" ];
   };
 
-
   fileSystems."/boot/efi" = {
     device = "/dev/disk/by-partlabel/boot";
     fsType = "vfat";
   };
-
-
 
   swapDevices = [ ];
 
