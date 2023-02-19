@@ -26,6 +26,18 @@
     enableSSHSupport = true;
   };
 
+  environment.etc = {
+    "rancher/k3s/kubelet.config" = {
+      text = ''
+        apiVersion: kubelet.config.k8s.io/v1beta1
+        kind: KubeletConfiguration
+        maxPods: 250
+      '';
+
+      mode = "0750";
+    };
+  };
+
   # the default settings of nixos are not usable in modern systems
   boot.kernel.sysctl."fs.inotify.max_user_instances" = 524288;
   boot.kernel.sysctl."fs.inotify.max_user_watches" = 524288;
@@ -47,6 +59,7 @@
   services.k3s.role = "server";
   services.k3s.extraFlags = toString [
     "--disable=traefik,local-storage,metrics-server"
+    "--kubelet-arg=config=/etc/rancher/k3s/kubelet.config"
     "--kube-apiserver-arg='enable-admission-plugins=DefaultStorageClass,DefaultTolerationSeconds,LimitRanger,MutatingAdmissionWebhook,NamespaceLifecycle,NodeRestriction,PersistentVolumeClaimResize,Priority,ResourceQuota,ServiceAccount,TaintNodesByCondition,ValidatingAdmissionWebhook'"
   ];
 }

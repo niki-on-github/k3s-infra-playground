@@ -15,7 +15,7 @@ tasks:
       - kubectl delete secret sops-age --ignore-not-found --namespace=flux-system
       - kubectl -n flux-system create secret generic sops-age --from-file=age.agekey={{ .SOPS_AGE_KEY_FILE }}
       - flux create secret git flux-git-auth --url={{ .REPO_SSH_URL }} --private-key-file={{ .PRIVATE_SSH_KEYFILE }}
-      - kubectl apply --kustomize {{ .CLUSTER_DIR }}/flux/flux-system/
+      - kubectl apply --kustomize {{ .CLUSTER_DIR }}/flux/setup
       - task: reconcile
     preconditions:
       - sh: test -f {{ .SOPS_AGE_KEY_FILE }}
@@ -35,9 +35,20 @@ tasks:
       - flux reconcile -n flux-system source git flux-system || flux reconcile -n flux-system source git flux-system
       - flux reconcile -n flux-system kustomization flux-system || flux reconcile -n flux-system kustomization flux-system
 
+  storage-setup:
+    desc: Force update storage setup
+    cmds:
+      - kubectl delete job longhorn-volume-setup -n storage
+      - flux reconcile kustomization longhorn-storage
+
   shutdown:
     desc: Shutdown cluster
     cmds:
       - kubectl get nodes -o name | sed 's/node\///g' | xargs -I{} kubectl drain {} --ignore-daemonsets=true --delete-emptydir-data=true --disable-eviction=true --grace-period=60 --timeout=300s --pod-selector=app.kubernetes.io/instance!=longhorn,app.kubernetes.io/instance!=kyverno
       - sleep 10
       - kubectl get nodes -o name | sed 's/node\///g' | xargs -I{} kubectl drain {} --ignore-daemonsets=true --delete-emptydir-data=true --disable-eviction=true --grace-period=60 --timeout=300s --pod-selector=app.kubernetes.io/instance!=kyverno
+
+  watch:
+    desc: watch k3s events
+    cmds:
+      - timeout 300 kubectl get events --watch -A | grep -E "(Warning|Error)" | grep -vE "(Readiness)" || true

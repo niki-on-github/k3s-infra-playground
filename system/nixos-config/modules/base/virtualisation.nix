@@ -3,17 +3,21 @@
   environment.systemPackages = with pkgs; [
     docker-compose
     replicate-cog
+    libvirt
+    virtmanager
     (my-python.withPackages (p: with p; [
-      python3-docker-compose
       cryptography
-      requests
       docker
-      docker-compose
+      libvirt
+      python3-docker-compose
+      requests
     ]))
   ];
 
   # required for virtualisation.docker.enableNvidia
   hardware.opengl.driSupport32Bit = true;
+
+  networking.firewall.allowedTCPPorts = [ 5900 ];
 
   virtualisation = {
     docker = {

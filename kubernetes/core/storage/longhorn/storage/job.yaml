@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: longhorn-volume-setup
+  namespace: storage
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: 600
+  ttlSecondsAfterFinished: 1800
+  template:
+    spec:
+      serviceAccountName: longhorn-volume-setup
+      containers:
+      - name: longhorn-volume-setup
+        imagePullPolicy: Always
+        image: ghcr.io/niki-on-github/longhorn-volume-manager:v1.0.0
+        env:
+        - name: LONGHORN_URL
+          value: http://longhorn-frontend.storage/v1
+        - name: START_DELAY_IN_SECONDS
+          value: "60"
+        volumeMounts:
+        - name: longhorn-volumes-config
+          mountPath: /config/volumes.yaml
+          subPath: volumes.yaml
+      restartPolicy: Never
+      volumes:
+      - name: longhorn-volumes-config
+        configMap:
+          name: longhorn-volumes-config

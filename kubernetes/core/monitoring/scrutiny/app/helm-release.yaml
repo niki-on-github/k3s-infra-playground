@@ -1,0 +1,173 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &db scrutiny-influxdb2
+  namespace: monitoring
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: influxdb
+      version: 5.4.15
+      interval: 1h
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-charts
+        namespace: flux-system
+
+  install:
+    remediation:
+      retries: -1
+
+  upgrade:
+    remediation:
+      retries: 5
+
+  dependsOn:
+    - name: longhorn
+      namespace: storage
+
+  values:
+    fullnameOverride: *db
+
+    auth:
+      admin:
+        username: "admin"
+        password: "password12345"  # min 8 characters
+        token: "${SECRET_SCRUTINY_WEB_INFLUXDB_TOKEN}"
+        org: "scrutiny"
+        bucket: "metrics"
+
+    persistence:
+      enabled: true
+      existingClaim: scrutiny-db
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &web scrutiny-web
+  namespace: monitoring
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.3.1
+      interval: 1h
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+
+  install:
+    remediation:
+      retries: -1
+
+  upgrade:
+    remediation:
+      retries: 5
+
+  values:
+    global:
+      nameOverride: *web
+
+    image:
+      repository: ghcr.io/analogj/scrutiny
+      tag: master-web
+
+    service:
+      main:
+        ports:
+          http:
+            port: 8080
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        hosts:
+          - host: &host "scrutiny.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+
+    env:
+      TZ: "${TIMEZONE}"
+      SCRUTINY_API_ENDPOINT: "http://localhost:8080"
+      SCRUTINY_WEB_INFLUXDB_HOST: 'scrutiny-influxdb2.monitoring.svc'
+      SCRUTINY_WEB_INFLUXDB_INIT_USERNAME: "admin"
+      SCRUTINY_WEB_INFLUXDB_INIT_PASSWORD: "password12345"
+      SCRUTINY_WEB_INFLUXDB_TOKEN: "${SECRET_SCRUTINY_WEB_INFLUXDB_TOKEN}"
+
+    persistence:
+      config:
+        enabled: true
+        mountPath: /opt/scrutiny/config
+        type: pvc
+        existingClaim: scrutiny-config
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &collector scrutiny-collector
+  namespace: monitoring
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.3.1
+      interval: 1h
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+
+  install:
+    remediation:
+      retries: -1
+
+  upgrade:
+    remediation:
+      retries: 5
+
+  values:
+    global:
+      nameOverride: *collector
+
+    image:
+      repository: ghcr.io/analogj/scrutiny
+      tag: v0.6.0-collector
+
+    service:
+      main:
+        enabled: false
+
+    securityContext:
+      capabilities:
+        add: ["SYS_RAWIO", "SYS_ADMIN"]
+      privileged: true
+
+    env:
+      TZ: "${TIMEZONE}"
+      COLLECTOR_API_ENDPOINT: "http://scrutiny-web.monitoring.svc:8080"
+
+    persistence:
+      dev:
+        enabled: true
+        type: hostPath
+        hostPath: /dev
+        mountPath: /dev
+      udev:
+        enabled: true
+        type: hostPath
+        hostPath: /run/udev
+        mountPath: /run/udev

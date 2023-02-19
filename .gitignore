@@ -1,1 +1,6 @@
-*.sops*
+provision
+decrypted~*
+*.agekey
+*.pub
+*.key
+*.pem

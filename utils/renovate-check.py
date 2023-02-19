@@ -24,7 +24,7 @@ print("extract dependencies from log", start, end)
 extracted = "{"+''.join(lines[start+1:end])+"}"
 renovate = json.loads(extracted)
 
-files = list(set([x for a in ["*.yaml", "*.yml"] for x in pathlib.Path("../cluster").rglob(a)]))
+files = list(set([x for a in ["*.yaml", "*.yml"] for x in pathlib.Path("../kubernetes").rglob(a)]))
 
 versions = {}
 

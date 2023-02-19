@@ -1,5 +1,7 @@
 # Cheat Sheet
 
+In k9s use `s` in main page to get shell access inside the pod.
+
 ```bash
 git -c http.sslVerify=false clone [URL]
 ```
@@ -62,9 +64,11 @@ kubectl replace -f override.yaml
 kubectl -n flux-system patch kustomization flux-system -p '{"metadata":{"finalizers":null}}'
 ```
 
+rerun storage creation now:
+
 ```bash
 kubectl delete job longhorn-volume-setup -n storage
-flux reconcile kustomization longhorn-setup
+flux reconcile kustomization longhorn-storage
 ```
 
 ```bash

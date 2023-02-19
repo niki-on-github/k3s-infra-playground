@@ -1,6 +1,6 @@
 # K3S Homelab
 
-Playground for my upcoming kubernetes homelab.
+Playground for my upcoming kubernetes homelab managed with Flux and Renovate.
 
 ## Clone
 

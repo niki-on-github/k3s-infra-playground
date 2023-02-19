@@ -1,3 +1,0 @@
-# flux
-
-The flux entrypoint.
