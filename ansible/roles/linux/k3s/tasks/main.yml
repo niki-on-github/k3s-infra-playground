@@ -1,0 +1,318 @@
+- name: "Verify that required role variables are defined"
+  assert:
+    that:
+      - "{{ role_var }} is defined"
+      - "{{ role_var }} | length > 0"
+      - "{{ role_var }} != None"
+    fail_msg: "{{ role_var }} needs to be set!"
+    success_msg: "Required variable {{ role_var }} is defined"
+  loop_control:
+    loop_var: role_var
+  with_items:
+    - k3s_cluster_secret
+    - flux_repo_ssh_user
+    - flux_repo_ssh_hostname
+    - flux_repo_ssh_url
+    - flux_repo_private_key
+
+- name: "Arch Linux (root)"
+  become: true
+  when: ansible_facts['distribution'] == 'Archlinux'
+  block:
+
+  - name: 'Update archlinux-keyring'
+    pacman:
+      name: 'archlinux-keyring'
+      state: latest
+      update_cache: yes
+
+  - name: 'Install kubernetes packages from arch repositories'
+    package:
+      name: "{{ archlinux_k3s_packages }}"
+      state: latest
+
+  - name: 'Enable iscsid systemd service'
+    systemd:
+      name: 'iscsid'
+      state: 'started'
+      enabled: 'yes'
+
+  - name: 'Enable prometheus-node-exporter systemd service'
+    systemd:
+      name: 'prometheus-node-exporter'
+      state: 'started'
+      enabled: 'yes'
+
+  - name: 'Install kubernetes AUR packages'
+    kewlfft.aur.aur:
+      name: "{{ archlinux_k3s_aur_packages }}"
+    become_user: "{{ username }}"
+
+  - name: 'Install kubernetes python packages for root'
+    pip:
+      name: "{{ item }}"
+    with_items:
+      - "stormssh"
+
+  - name: "Generate k3s service env file"
+    template:
+      src: k3s.service.env.j2
+      dest: "/etc/systemd/system/k3s.service.env"
+
+  - name: 'Create k3s directories'
+    file:
+      dest: "{{ item }}"
+      state: directory
+      recurse: no
+    with_items:
+       - "/etc/rancher"
+       - "/etc/rancher/k3s"
+
+  - name: "Copy kubelet.config"
+    copy:
+      src: "k3s/kubelet.config"
+      dest: "/etc/rancher/k3s/kubelet.config"
+
+  # https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/
+  - name: "Set default k3s start configuration"
+    lineinfile:
+      path: /usr/lib/systemd/system/k3s.service
+      regexp: '^ExecStart='
+      line: ExecStart=/usr/bin/k3s server --disable=traefik,local-storage,metrics-server --kubelet-arg=config=/etc/rancher/k3s/kubelet.config --kube-apiserver-arg='enable-admission-plugins=DefaultStorageClass,DefaultTolerationSeconds,LimitRanger,MutatingAdmissionWebhook,NamespaceLifecycle,NodeRestriction,PersistentVolumeClaimResize,Priority,ResourceQuota,ServiceAccount,TaintNodesByCondition,ValidatingAdmissionWebhook'
+
+  - name: 'Enable k3s systemd service'
+    systemd:
+      name: 'k3s'
+      state: 'started'
+      enabled: 'yes'
+      daemon_reload: yes
+
+# obsolete:
+# - name: "Setup dependencies for user (user)"
+#   when: ansible_facts['distribution'] != "NixOS"
+#   block:
+
+#   - name: 'Install kubernetes python packages for user'
+#     pip:
+#       name: "{{ item }}"
+#     with_items:
+#       - "stormssh" # required for community.general.ssh_config
+
+- name: "K3S Setup (root)"
+  become: yes
+  block:
+  - name: 'Create k3s directories'
+    file:
+      dest: "{{ item }}"
+      state: directory
+      owner: "{{ username }}"
+      recurse: no
+    with_items:
+       - "{{ k3s_home }}"
+       - "{{ k3s_home }}/.age"
+
+  - name: "Get longhorn storage dir stat"
+    stat:
+      path: /var/lib/longhorn
+    register: longhorn_dir
+
+  - name: "Btrfs check"
+    shell:
+      cmd: cat /proc/mounts | grep " / " | grep -q "btrfs"
+    register: btrfs_check
+    failed_when: false
+
+  - name: "Create /var/lib/longhorn btrfs subvolume"
+    shell:
+      cmd: btrfs subvolume create /var/lib/longhorn
+    when: not longhorn_dir.stat.exists and btrfs_check.rc == 0
+
+  - name: 'Create longhorn directories'
+    file:
+      dest: "{{ item }}"
+      state: directory
+      owner: "{{ username }}"
+      recurse: no
+    with_items:
+       - "{{ longhorn_data_dir }}"
+
+- name: "K3S Setup (user)"
+  block:
+
+  - name: 'Create k3s directories'
+    file:
+      dest: "{{ item }}"
+      state: directory
+      owner: "{{ username }}"
+      recurse: no
+    with_items:
+       - "/home/{{ username }}/.kube"
+       - "/home/{{ username }}/.config/sops/age"
+       - "/home/{{ username }}/.config/k9s"
+
+  - name: "Copy k9s config to user directory"
+    copy:
+      src: "k9s/config.yml"
+      dest: "/home/{{ username }}/.config/k9s/config.yml"
+      owner: "{{ username }}"
+
+  - name: "Copy k3s config to user directory"
+    copy:
+      src: "/etc/rancher/k3s/k3s.yaml"
+      dest: "/home/{{ username }}/.kube/config"
+      owner: "{{ username }}"
+      remote_src: true
+    become: yes
+
+  - name: "Check if flux ssh private keys exists in ansible repo"
+    stat:
+      path: "{{ playbook_dir }}/../files/flux/ssh/flux"
+    delegate_to: localhost
+    register: local_ssh_private_key
+
+  - name: "Copy existing flux ssh private key"
+    copy:
+      src: "{{ playbook_dir }}/../files/flux/ssh/flux"
+      dest: "{{ flux_repo_private_key }}"
+      owner: "{{ username }}"
+    when: local_ssh_private_key.stat.exists
+
+  - name: "Check if flux ssh private keys exists on target"
+    stat:
+      path: "{{ flux_repo_private_key }}"
+    register: flux_ssh_private_key
+
+  - name: "Generate {{ flux_repo_private_key }}"
+    community.crypto.openssh_keypair:
+      path: "{{ flux_repo_private_key }}"
+    when: not flux_ssh_private_key.stat.exists
+
+  - name: "Ensure ssh files are 0600"
+    command: find /home/{{ username }}/.ssh -type f -exec chmod 0600 {} \;
+
+  - name: "Generate ssh public key from flux ssh private key"
+    shell:
+      cmd: "ssh-keygen -f {{ flux_repo_private_key }} -y > {{ flux_repo_private_key }}.pub"
+      chdir: "/home/{{ username }}/.ssh"
+
+  # obsolete:
+  # - name: "Add flux repo host to the ssh configuration"
+  #   community.general.ssh_config:
+  #     user: "{{ username }}"
+  #     user_known_hosts_file: "{{ flux_repo_ssh_user }}"
+  #     host: "{{ flux_repo_ssh_hostname }}"
+  #     hostname: "{{ flux_repo_ssh_hostname }}"
+  #     identity_file: "{{ flux_repo_private_key }}"
+  #     state: present
+
+  - name: "Add flux repo host to the ssh configuration"
+    ansible.builtin.blockinfile:
+      path: "/home/{{ username }}/.ssh/config"
+      create: true
+      block: |
+        host {{ flux_repo_ssh_hostname }}
+          HostName {{ flux_repo_ssh_hostname }}
+          IdentityFile {{ flux_repo_private_key }}
+          User {{ flux_repo_ssh_user }}
+
+  - name: "Check if sops.agekey exists"
+    stat:
+      path: "{{ playbook_dir }}/../files/flux/age/sops.agekey"
+    delegate_to: localhost
+    register: local_sops_agekey
+
+  - name: "Copy existing sops.agekey"
+    copy:
+      src: "{{ playbook_dir }}/../files/flux/age/sops.agekey"
+      dest: "{{ k3s_home }}/.age/sops.agekey"
+      owner: "{{ username }}"
+    when: local_sops_agekey.stat.exists
+
+  - name: "Get age key stat"
+    stat:
+      path: "{{ k3s_home }}/.age/sops.agekey"
+    register: flux_secret_key
+
+  - name: "Generate age key"
+    command:
+      cmd: age-keygen -o sops.agekey
+      chdir: "{{ k3s_home }}/.age"
+    when: not flux_secret_key.stat.exists
+
+  - name: "Create flux folder on ansible host"
+    file:
+      path: "{{ item }}"
+      state: directory
+      mode: 0755
+    delegate_to: localhost
+    with_items:
+      - "{{ playbook_dir }}/../files/flux"
+      - "{{ playbook_dir }}/../files/flux/age"
+      - "{{ playbook_dir }}/../files/flux/ssh"
+
+  - name: "Download age key to ansible host"
+    fetch:
+      src: "{{ k3s_home }}/.age/sops.agekey"
+      dest: "{{ playbook_dir }}/../files/flux/age/sops.agekey"
+      flat: yes
+
+  - name: "Download flux ssh private key"
+    fetch:
+      src: "{{ flux_repo_private_key }}"
+      dest: "{{ playbook_dir }}/../files/flux/ssh/flux"
+      flat: yes
+
+  - name: "Get Public Key"
+    shell:
+      cmd: "grep 'public key' {{ k3s_home }}/.age/sops.agekey | cut -d ':' -f 2 | tr -d ' '"
+      chdir: "{{ k3s_home }}/.age"
+    register: flux_age_public_key
+
+  - name: "Get Private Key"
+    shell:
+      cmd: "grep 'AGE-SECRET-KEY' {{ k3s_home }}/.age/sops.agekey"
+      chdir: "{{ k3s_home }}/.age"
+    register: flux_age_private_key
+
+  - name: "Add age key to /home/{{ username }}/.config/sops/age/keys.txt"
+    lineinfile:
+      dest: "/home/{{ username }}/.config/sops/age/keys.txt"
+      line: "{{ flux_age_private_key.stdout }}"
+      create: true
+
+  - name: "Clone flux repository (Requirement: flux ssh key is registered in your git account)"
+    git:
+      repo: "{{ flux_repo_ssh_url }}"
+      dest: "{{ k3s_home }}/gitops"
+      clone: yes
+      update: yes
+      force: yes
+      accept_hostkey: yes
+      key_file: "{{ flux_repo_private_key }}"
+
+  - name: "Set fact ca_passphrase"
+    set_fact:
+      ca_passphrase: "{{ webservices_password }}"
+    when: ca_passphrase is not defined
+
+  - name: "Temporary remove password from ca key"
+    shell:
+      cmd: 'echo "{{ ca_passphrase }}" | openssl rsa -in ca.key -out ca2.key -passin stdin'
+      chdir: "{{ certs_path }}"
+
+  - name: "Create kubernetes ca certs secret"
+    shell:
+      cmd: "kubectl -n networking create secret generic internal-ca --dry-run=client --from-file=tls.crt=./self-signed-ca-cert.crt --from-file=tls.key=./ca2.key -o yaml > ca-certs.yaml"
+      chdir: "{{ certs_path }}"
+
+  - name: "Delete temporary ca key without passphrase"
+    file:
+      state: absent
+      path: "{{ certs_path }}/ca2.key"
+
+  - name: "Encrypt kubernetes ca certs secret"
+    shell:
+      cmd: "sops --age={{ flux_age_public_key.stdout }} --encrypt --encrypted-regex '^(data|stringData)$' --in-place ca-certs.yaml"
+      chdir: "{{ certs_path }}"
+
+  #NOTE: We import the age secret in taskfile of flux repo!

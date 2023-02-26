@@ -4,3 +4,4 @@ decrypted~*
 *.pub
 *.key
 *.pem
+secure.yml

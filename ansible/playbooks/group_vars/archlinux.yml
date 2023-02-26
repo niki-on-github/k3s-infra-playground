@@ -1,0 +1,4 @@
+username: arch
+uid: "1000"
+gid: "1000"
+flux_repo_private_key: "/home/{{ username }}/.ssh/flux"

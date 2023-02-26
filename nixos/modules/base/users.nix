@@ -36,5 +36,10 @@
     };
   };
 
+  programs.zsh = {
+    enable = true;
+  };
+
+  environment.shells = with pkgs; [ zsh ];
   nix.settings.trusted-users = [ "root" "${inputs.self.user}" ];
 }

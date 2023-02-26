@@ -1,0 +1,78 @@
+---
+- name: "K3S Cleanup (user)"
+  block:
+  - name: "Flux uninstall"
+    shell:
+      cmd: flux uninstall -s
+    ignore_errors: true
+
+  - name: "Delete all deployments"
+    shell:
+      cmd: kubectl delete deployments --all=true -A
+    ignore_errors: true
+
+  - name: "Delete all statefulsets"
+    shell:
+      cmd: kubectl delete statefulsets --all=true -A
+    ignore_errors: true
+
+  - name: "Delete all namespaces"
+    shell:
+      cmd: kubectl delete ns --all=true -A
+    ignore_errors: true
+
+  - name: "Delete all remaining pods"
+    shell:
+      cmd: kubectl get ns | tail -n +2 | cut -d ' ' -f 1 | xargs -I{} kubectl delete pods --all=true --force=true -n {}
+    ignore_errors: true
+
+  - name: "Wait for pods termination"
+    pause:
+      minutes: 1
+
+- name: "K3S Cleanup (root)"
+  become: true
+  block:
+  - name: 'Stop k3s service'
+    systemd:
+      name: 'k3s'
+      state: 'stopped'
+      daemon_reload: yes
+
+  - name: "Delete k3s cluster"
+    file:
+      state: absent
+      path: /var/lib/rancher/k3s/
+
+  - name: "Delete reserved IPs"
+    file:
+      state: absent
+      path: /var/lib/cni/networks/cbr0/
+
+  - name: "Delete all longhorn volumes (root)"
+    block:
+    - name: "Collect longhorn files"
+      find:
+        paths: "{{ longhorn_data_dir }}"
+        hidden: True
+        recurse: True
+      register: collected_files
+
+    - name: "Collect longhorn directories"
+      find:
+        paths: "{{ longhorn_data_dir }}"
+        hidden: True
+        recurse: True
+        file_type: directory
+      register: collected_directories
+
+    - name: "Remove collected longhorn files and directories"
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: >
+        {{
+          collected_files.files
+          + collected_directories.files
+        }}
+

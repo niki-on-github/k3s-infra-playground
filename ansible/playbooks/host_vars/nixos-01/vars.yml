@@ -1,0 +1,2 @@
+domain: 'server02.lan'
+longhorn_data_dir: "/data/longhorn"

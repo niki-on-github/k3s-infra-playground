@@ -1,0 +1,7 @@
+---
+configs:
+  use: 'config1'
+  config1:
+    name: 'arch-ansible-test'
+    cpus: 8
+    memory: 8192

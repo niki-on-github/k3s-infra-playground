@@ -1,0 +1,27 @@
+archlinux_k3s_packages:
+  - age
+  - base-devel
+  - bash
+  - coreutils
+  - curl
+  - fakeroot
+  - gawk
+  - git
+  - grep
+  - helm
+  - jq
+  - k9s
+  - kubectl
+  - nfs-utils
+  - open-iscsi
+  - prometheus-node-exporter
+  - promtail
+  - sops
+  - util-linux
+
+archlinux_k3s_aur_packages:
+  - flux-bin
+  - go-task-bin
+  - k3s-bin
+  - kube-capacity-git
+  - virtctl-bin

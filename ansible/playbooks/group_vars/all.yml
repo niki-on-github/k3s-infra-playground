@@ -1,0 +1,26 @@
+timezone: 'Europe/Berlin'
+
+certs_path: "/opt/certs"
+
+backup_home: "/mnt/backup"
+backup_home_borg: "{{ backup_home }}/borg"
+backup_home_rsync: "{{ backup_home }}/rsync"
+backup_home_archiv: "{{ backup_home }}/archiv"
+
+docker_home: '/opt/docker'
+docker_data: '{{ docker_home }}/data'
+docker_recipes: '{{ docker_home }}/recipes'
+docker_restore: '{{ docker_home }}/restore'
+docker_logs: '{{ docker_home }}/log'
+docker_temp: '{{ docker_home }}/temp'
+docker_share: '{{ docker_home }}/share'
+docker_backup: "{{ backup_home_rsync }}/docker"
+
+k3s_home: "/opt/k3s"
+
+flux_repo_ssh_user: "root"
+flux_repo_ssh_hostname: "git.server01.lan"
+flux_repo_ssh_url: "ssh://git@{{ flux_repo_ssh_hostname }}:222/r/k3s-infra-testing.git"
+
+gateway_ip: "10.0.1.1"
+develop: false

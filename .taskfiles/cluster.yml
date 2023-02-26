@@ -26,7 +26,8 @@ tasks:
           Ssh key file not found.
     vars:
       SOPS_AGE_KEY_FILE: /opt/k3s/.age/sops.agekey
-      PRIVATE_SSH_KEYFILE: /home/nix/.ssh/archserver01
+      PRIVATE_SSH_KEYFILE:
+        sh: "echo \"$HOME/.ssh/flux\""
       REPO_SSH_URL: ssh://git@git.server01.lan:222/r/k3s-infra-testing.git
 
   reconcile:

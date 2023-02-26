@@ -1,0 +1,7 @@
+---
+- hosts: archlinux, nixos
+  roles:
+    - role: linux/certificate
+    - role: linux/docker
+    - role: linux/k3s
+

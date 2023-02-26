@@ -12,8 +12,23 @@ git -c http.sslVerify=false clone [URL]
 
 ## Deploy Cluster
 
-For the deployment we use the [go-task](https://github.com/go-task/task) tool:
+### Setup System
+
+Use `./nixos` flake for system setup.
+
+### Setup Cluster
+
+Use ansible playbooks from `./ansible`.
+
+### Deploy Kubernetes
+
+For the Kubernetes deployment we use the [go-task](https://github.com/go-task/task) tool:
 
 ```bash
 go-task cluster:install
 ```
+
+## TODO
+
+- SOPS in Nixos configuration
+- VolSync backups
