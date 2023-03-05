@@ -1,0 +1,7 @@
+---
+- hosts: archlinux, nixos
+  roles:
+    - role: linux/develop/docker-clean
+    - role: linux/develop/k3s-clean
+
+

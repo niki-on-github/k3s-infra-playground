@@ -1,0 +1,38 @@
+---
+- name: "Setup base Applications"
+  become: true
+  block:
+
+  - name: "Arch Linux"
+    when: ansible_facts['distribution'] == 'Archlinux'
+    block:
+
+    - name: 'Update archlinux-keyring'
+      pacman:
+        name: 'archlinux-keyring'
+        state: latest
+        update_cache: yes
+
+    - name: 'Install base Applications'
+      package:
+        state: latest
+        name:
+          - borg
+          - cpupower
+          - ethtool
+          - htop
+          - iotop
+          - jq
+          - kexec-tools
+          - ncdu
+          - openssl
+          - parted
+          - python-pip
+          - python-setuptools
+          - rsync
+          - rustup
+          - sysstat
+          - usbutils
+
+
+

@@ -1,7 +1,11 @@
 ---
 - hosts: archlinux, nixos
   roles:
+    - role: linux/base-server
     - role: linux/certificate
     - role: linux/docker
+    - role: linux/ssh-agent
     - role: linux/k3s
+    - role: linux/backup
+    - role: linux/cpu-power
 

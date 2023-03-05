@@ -15,7 +15,6 @@ ExecStart=/usr/bin/k3s server --disable=traefik,local-storage,metrics-server --k
 If you attach to `vpn-terminal` console via `k9s` should see the traffic being routed through the gateway:
 
 ```bash
-
 ip route
 default via 172.16.0.1 dev vxlan0
 10.0.0.0/8 via 10.0.2.1 dev eth0
@@ -23,7 +22,7 @@ default via 172.16.0.1 dev vxlan0
 172.16.0.0/24 dev vxlan0 scope link  src 172.16.0.133
 ```
 
-````bash
+```bash
 ip addr
 lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -48,4 +47,4 @@ vxlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1400 qdisc noqueue state UNKNOWN q
 ```bash
 cat /etc/resolv.conf
 nameserver 172.16.0.1
-````
+```

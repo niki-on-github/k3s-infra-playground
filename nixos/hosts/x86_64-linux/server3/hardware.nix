@@ -82,7 +82,7 @@
   };
 
 
-  fileSystems."/data" = {
+  fileSystems."/opt/k3s/longhorn" = {
     device = "/dev/mapper/data";
     fsType = "ext4";
     encrypted = {

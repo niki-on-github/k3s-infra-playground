@@ -31,7 +31,7 @@ spec:
     image:
       repository: ghcr.io/crazy-max/samba
       tag: 4.16.8
-      pullPolicy: Always
+      # pullPolicy: Always
 
     service:
       main:

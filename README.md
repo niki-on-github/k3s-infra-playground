@@ -31,4 +31,3 @@ go-task cluster:install
 ## TODO
 
 - SOPS in Nixos configuration
-- VolSync backups

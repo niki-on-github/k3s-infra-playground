@@ -14,6 +14,7 @@ spec:
   force: true
   dependsOn:
     - name: kyverno-operator
+    - name: minio-local-storage
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -61,6 +62,7 @@ spec:
   retryInterval: 30s
   dependsOn:
     - name: longhorn
+    - name: longhorn-backup
   path: "./kubernetes/core/storage/longhorn/storage"
   prune: true
   wait: true

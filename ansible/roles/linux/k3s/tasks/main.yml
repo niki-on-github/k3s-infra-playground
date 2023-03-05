@@ -80,6 +80,10 @@
       regexp: '^ExecStart='
       line: ExecStart=/usr/bin/k3s server --disable=traefik,local-storage,metrics-server --kubelet-arg=config=/etc/rancher/k3s/kubelet.config --kube-apiserver-arg='enable-admission-plugins=DefaultStorageClass,DefaultTolerationSeconds,LimitRanger,MutatingAdmissionWebhook,NamespaceLifecycle,NodeRestriction,PersistentVolumeClaimResize,Priority,ResourceQuota,ServiceAccount,TaintNodesByCondition,ValidatingAdmissionWebhook'
 
+
+- name: "K3S Setup (root)"
+  become: yes
+  block:
   - name: 'Enable k3s systemd service'
     systemd:
       name: 'k3s'
@@ -87,20 +91,6 @@
       enabled: 'yes'
       daemon_reload: yes
 
-# obsolete:
-# - name: "Setup dependencies for user (user)"
-#   when: ansible_facts['distribution'] != "NixOS"
-#   block:
-
-#   - name: 'Install kubernetes python packages for user'
-#     pip:
-#       name: "{{ item }}"
-#     with_items:
-#       - "stormssh" # required for community.general.ssh_config
-
-- name: "K3S Setup (root)"
-  become: yes
-  block:
   - name: 'Create k3s directories'
     file:
       dest: "{{ item }}"

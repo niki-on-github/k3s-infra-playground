@@ -1,4 +1,6 @@
-# NixOS config
+# NixOS
+
+This directory contains the NixOS configuration for my servers.
 
 ## Setup
 

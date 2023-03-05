@@ -23,7 +23,7 @@
 
   - name: "Delete all remaining pods"
     shell:
-      cmd: kubectl get ns | tail -n +2 | cut -d ' ' -f 1 | xargs -I{} kubectl delete pods --all=true --force=true -n {}
+      cmd: kubectl get ns | tail -n +2 | cut -d ' ' -f 1 | xargs -I{} timeout 30 kubectl delete pods --all=true --force=true -n {}
     ignore_errors: true
 
   - name: "Wait for pods termination"

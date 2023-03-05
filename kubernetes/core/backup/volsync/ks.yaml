@@ -13,12 +13,10 @@ spec:
   wait: true
   force: true
   dependsOn:
+    - name: longhorn
     - name: external-snapshotter
+    - name: minio
   sourceRef:
     kind: GitRepository
     name: flux-system
-  healthChecks:
-  - apiVersion: apps/v1
-    kind: Deployment
-    name: kyverno
-    namespace: policy
+

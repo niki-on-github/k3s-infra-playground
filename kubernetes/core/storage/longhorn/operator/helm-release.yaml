@@ -44,6 +44,18 @@ spec:
                   - configMapRef:
                       name: longhorn-custom-path
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: longhorn-backup-minio-secret
+  namespace: storage
+type: Opaque
+data:
+  AWS_ACCESS_KEY_ID: ${SECRET_MINIO_ACCESS_KEY_BASE64}
+  AWS_SECRET_ACCESS_KEY: ${SECRET_MINIO_SECRET_KEY_BASE64}
+  # echo -n http://minio.backup.svc.cluster.local | base64
+  AWS_ENDPOINTS: aHR0cDovL21pbmlvLmJhY2t1cC5zdmMuY2x1c3Rlci5sb2NhbA==
+---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -70,10 +82,6 @@ spec:
     remediation:
       retries: 5
 
-  dependsOn:
-    - name: nfs
-      namespace: storage
-
   values:
     persistence:
       defaultClass: false
@@ -90,7 +98,8 @@ spec:
     enablePSP: false
 
     defaultSettings:
-      backupTarget: "nfs://nfs.storage:/longhorn"
+      backupTarget: "s3://longhorn@local/"
+      backupTargetCredentialSecret: longhorn-backup-minio-secret
       defaultDataPath: "${LONGHORN_DATA_PATH}"
       defaultReplicaCount: 1
       allowVolumeCreationWithDegradedAvailability: true

@@ -30,7 +30,8 @@ spec:
 
     image:
       repository: ghcr.io/niki-on-github/nfs-server
-      tag: v1.0.0
+      tag: "v1.1.0"
+      pullPolicy: Always
 
     service:
       main:
@@ -53,21 +54,21 @@ spec:
 
     env:
       # NOTE: use ';' as path seperator
-      CREATE_DIRECTORIES: "/data/pv;/data/longhorn"
+      CREATE_DIRECTORIES: "/srv/nfs/pv"
 
     configMaps:
       config:
         enabled: true
         data:
           exports: |
-            /data ${CLUSTER_PODS_NETWORK_IP_POOL}(rw,fsid=0,async,no_subtree_check,no_auth_nlm,insecure,no_root_squash)
+            /srv/nfs ${CLUSTER_PODS_NETWORK_IP_POOL}(rw,async,no_subtree_check,no_auth_nlm,insecure,no_root_squash,fsid=0)
 
     persistence:
-      data:
+      pv:
         enabled: true
         type: hostPath
-        hostPath: "${NFS_HOST_PATH}"
-        mountPath: /data
+        hostPath: "${NFS_STORAGE_PROVISIONER_HOST_PATH}"
+        mountPath: /srv/nfs
       exports:
         enabled: true
         type: configMap

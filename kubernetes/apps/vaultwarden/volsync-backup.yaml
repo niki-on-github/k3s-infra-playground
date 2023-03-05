@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vaultwarden-backup-restic-config
+  namespace: apps
+type: Opaque
+stringData:
+  RESTIC_REPOSITORY: s3:http://minio.backup.svc.cluster.local/volsync/vaultwarden
+  AWS_ACCESS_KEY_ID: ${SECRET_MINIO_ACCESS_KEY_BASE64}
+  AWS_SECRET_ACCESS_KEY: ${SECRET_MINIO_SECRET_KEY_BASE64}
+
+  # The repository encryption key
+  RESTIC_PASSWORD: "${SECRET_VOLSYNC_RESTIC_PASSWORD}"
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: vaultwarden-backup
+  namespace: apps
+spec:
+  sourcePVC: vaultwarden-data
+  trigger:
+    # Take a backup every 30 minutes
+    schedule: "*/30 * * * *"
+  restic:
+    pruneIntervalDays: 14
+    # Name of the Secret with the connection information
+    repository: vaultwarden-backup-restic-config
+    # Retention policy for backups
+    retain:
+      hourly: 6
+      daily: 5
+      weekly: 4
+      monthly: 2
+      yearly: 1
+    copyMethod: Direct
+    volumeSnapshotClassName: longhorn
+    cacheStorageClassName: longhorn

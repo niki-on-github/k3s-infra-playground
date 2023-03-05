@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+# Description: Backup script
+
+if [ -d {{ docker_recipes }}/paperless ]; then
+    echo "export paperless documents"
+    pushd "{{ docker_recipes }}/paperless"
+    docker compose exec -T paperless document_exporter -d ../export
+    popd
+fi
+
+if [ -f {{ backup_tools_dir }}/docker/stop-all-containers.sh ]; then
+    . {{ backup_tools_dir }}/docker/stop-all-containers.sh
+fi
+
+pushd {{ docker_recipes }}
+if [ ! -d .git ]; then
+    git init
+fi
+git config init.defaultBranch "master"
+git config user.name "Backup Scheduler"
+git config user.email "backup@{{ domain }}"
+git config --global --add safe.directory {{ docker_recipes }}
+git add --all
+git commit -m "Backup $(date)"
+popd
+
+rsync \
+    -av \
+    --delete \
+    --log-file="{{ docker_logs }}/$(date +"%Y-%m-%d_%H-%M-%S")-data-rsync.log" \
+    {{ docker_data }} {{ docker_backup }}
+
+rsync \
+    -av \
+    --delete \
+    --log-file="{{ docker_logs }}/$(date +"%Y-%m-%d_%H-%M-%S")-recipes-rsync.log" \
+    {{ docker_recipes }} {{ docker_backup }}
+
+rsync \
+    -av \
+    --delete \
+    --log-file="{{ docker_logs }}/$(date +"%Y-%m-%d_%H-%M-%S")-restore-rsync.log" \
+    {{ docker_restore }} {{ docker_backup }}
+
+
+dest="{{ backup_home_borg }}"
+src="{{ docker_data }} {{ docker_recipes }} {{ docker_restore }}"
+repo_name="docker"
+encryption="none"
+compression="lz4"
+pruning="--keep-within=1d --keep-daily=7 --keep-weekly=4 --keep-monthly=12"
+logfile="{{ docker_logs }}/$(date +"%Y-%m-%d_%H-%M-%S")-borg.log"
+
+
+repo_path="$dest"/"$repo_name"
+
+if [ ! -d $repo_path ]; then
+  borg init --encryption=$encryption $repo_path
+fi
+
+borg create \
+    -v \
+    --stats \
+    --one-file-system \
+    --compression $compression \
+    $repo_path::'{hostname}-{now:%Y-%m-%d_%H-%M-%S}' \
+    $src \
+    >> $logfile 2>&1
+
+borg prune \
+    -v \
+    --list $repo_path \
+    --prefix '{hostname}-' \
+    $pruning \
+    >> $logfile 2>&1
+
+if [ -f {{ backup_tools_dir }}/docker/start-all-containers.sh ]; then
+    . {{ backup_tools_dir }}/docker/start-all-containers.sh
+fi
+
+backup_archiv_name="backup_$(date +%Y-%m-%d)"
+backup_archiv_type=".tar.gz"
+echo "create new backup archives"
+tar cfz {{ backup_home_archiv }}/${backup_archiv_name}${backup_archiv_type} {{ backup_home_rsync }}
+echo "compute recovery blocks"
+pushd {{ backup_home_archiv }}
+par2create -r5 -n1 {{ backup_home_archiv }}/${backup_archiv_name}${backup_archiv_type}
+popd
+echo "prune old backup archives"
+find {{ backup_home_archiv }}/*${backup_archiv_type}* -mtime +30 -exec rm {} \;
+
+
+if [ -d {{ docker_share }}/syncthing ]; then
+    mkdir -p {{ backup_home_rsync }}/syncthing
+    rsync \
+        -av \
+        --delete \
+        --log-file="{{ docker_logs }}/$(date +"%Y-%m-%d_%H-%M-%S")-syncthing-rsync.log" \
+        {{ docker_share }}/syncthing/ {{ backup_home_rsync }}/syncthing
+fi

@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: apps
 resources:
   - helm-release.yaml
+  - volsync-backup.yaml
