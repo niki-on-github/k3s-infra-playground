@@ -10,9 +10,6 @@ spec:
   selector:
     matchLabels:
       app: vpn-terminal
-  dependsOn:
-    - name: vpn-gateway
-      namespace: vpn-gateway
   template:
     metadata:
       labels:

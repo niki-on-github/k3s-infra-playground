@@ -20,12 +20,6 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
 
-  dependsOn:
-  - name: traefik
-    namespace: networking
-  - name: longhorn
-    namespace: storage
-
   values:
     global:
       nameOverride: *app

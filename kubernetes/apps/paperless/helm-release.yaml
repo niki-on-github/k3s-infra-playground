@@ -17,17 +17,11 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
 
-  dependsOn:
-  - name: traefik
-    namespace: networking
-  - name: longhorn
-    namespace: storage
-
   values:
     image:
       # renovate: datasource=docker
       repository: ghcr.io/paperless-ngx/paperless-ngx
-      tag: 1.11.3
+      tag: 1.13.0
 
     podSecurityContext:
       runAsUser: 0
@@ -124,7 +118,7 @@ spec:
     image:
       # renovate: datasource=docker
       repository: docker.io/library/redis
-      tag: 7.0.8
+      tag: 7.0.9
 
     service:
       main:

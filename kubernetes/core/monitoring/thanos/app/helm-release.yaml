@@ -9,28 +9,12 @@ spec:
   chart:
     spec:
       chart: thanos
-      version: 12.0.6
+      version: 12.3.0
       interval: 15m
       sourceRef:
         kind: HelmRepository
         name: bitnami-charts
         namespace: flux-system
-
-  install:
-    remediation:
-      retries: -1
-
-  upgrade:
-    remediation:
-      retries: 5
-
-  dependsOn:
-    - name: traefik
-      namespace: networking
-    - name: longhorn
-      namespace: storage
-    - name: minio-operator
-      namespace: minio-operator
 
   values:
     query:

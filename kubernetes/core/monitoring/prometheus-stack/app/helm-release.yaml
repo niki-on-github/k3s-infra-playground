@@ -9,26 +9,12 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 44.4.1
+      version: 45.7.1
       interval: 1h
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
         namespace: flux-system
-
-  install:
-    remediation:
-      retries: -1
-
-  upgrade:
-    remediation:
-      retries: 5
-
-  dependsOn:
-    - name: longhorn
-      namespace: storage
-    - name: thanos
-      namespace: monitoring
 
   values:
     # required to get thanos discovery working

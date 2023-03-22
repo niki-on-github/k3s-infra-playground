@@ -15,17 +15,13 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
 
-  dependsOn:
-  - name: longhorn
-    namespace: storage
-
   values:
     global:
       nameOverride: *app
 
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
-      tag: 1.29.2
+      tag: 1.30.2
 
     env:
       ZIGBEE2MQTT_DATA: /config

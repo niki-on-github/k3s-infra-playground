@@ -1,0 +1,30 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: longhorn-pvc-samba-share-role
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+  labels:
+    app: longhorn-pvc-samba-share
+rules:
+- apiGroups:
+  - "" # "" indicates the core API group
+  - "apps"
+  - "services"
+  - "helm.toolkit.fluxcd.io"
+  resources:
+  - "services"
+  - "helmreleases"
+  - "deployments"
+  - "deployments.apps"
+  - "persistentvolumes"
+  - "persistentvolumeclaims"
+  - "helm.toolkit.fluxcd.io/v2beta1"
+  verbs:
+  - "get"
+  - "list"
+  - "watch"
+  - "create"
+  - "update"
+  - "patch"
+  - "delete"

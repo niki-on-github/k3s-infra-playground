@@ -15,10 +15,6 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
 
-  dependsOn:
-  - name: longhorn
-    namespace: storage
-
   values:
     global:
       nameOverride: *app

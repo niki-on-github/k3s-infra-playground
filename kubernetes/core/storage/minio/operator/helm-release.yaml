@@ -17,14 +17,6 @@ spec:
         name: minio-charts
         namespace: flux-system
 
-  install:
-    remediation:
-      retries: -1
-
-  upgrade:
-    remediation:
-      retries: 5
-
   values:
     operator:
       replicaCount: 1

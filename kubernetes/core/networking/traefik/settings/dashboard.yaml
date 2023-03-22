@@ -8,8 +8,8 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`traefik.${SECRET_DOMAIN}`)
-      kind: Rule
+    - kind: Rule
+      match: Host(`traefik.${SECRET_DOMAIN}`)
       priority: 10
       services:
         - name: api@internal

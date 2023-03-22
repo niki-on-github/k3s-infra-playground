@@ -93,3 +93,7 @@ kubectl drain $NODE_NAME --ignore-daemonsets=true --delete-emptydir-data=true --
 # after reboot
 kubectl uncordon $NODE_NAME
 ```
+
+```
+kubectl get CustomResourceDefinition -A | grep $NAME | cut -d ' ' -f1 | xargs -I {} kubectl delete CustomResourceDefinition {} -n apps
+```

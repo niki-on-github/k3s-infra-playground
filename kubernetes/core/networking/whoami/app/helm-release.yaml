@@ -19,18 +19,6 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
 
-  install:
-    remediation:
-      retries: 10
-
-  upgrade:
-    remediation:
-      retries: 10
-
-  dependsOn:
-  - name: traefik
-    namespace: networking
-
   values:
     image:
       repository: traefik/traefikee-webapp-demo

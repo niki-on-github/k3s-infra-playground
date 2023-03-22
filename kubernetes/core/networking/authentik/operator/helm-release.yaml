@@ -11,18 +11,12 @@ spec:
   chart:
     spec:
       chart: authentik
-      version: 2022.12.4
+      version: 2023.3.1
       sourceRef:
         kind: HelmRepository
         name: authentik-charts
         namespace: flux-system
       interval: 5m
-
-  dependsOn:
-    - name: traefik
-      namespace: networking
-    - name: longhorn
-      namespace: storage
 
   values:
     ingress:

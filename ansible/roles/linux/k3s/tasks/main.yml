@@ -292,7 +292,7 @@
 
   - name: "Create kubernetes ca certs secret"
     shell:
-      cmd: "kubectl -n networking create secret generic internal-ca --dry-run=client --from-file=tls.crt=./self-signed-ca-cert.crt --from-file=tls.key=./ca2.key -o yaml > ca-certs.yaml"
+      cmd: "kubectl -n networking create secret generic internal-ca --dry-run=client --from-file=tls.crt=./ca.crt --from-file=tls.key=./ca2.key -o yaml > ca-certs.yaml"
       chdir: "{{ certs_path }}"
 
   - name: "Delete temporary ca key without passphrase"

@@ -19,19 +19,13 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
 
-  dependsOn:
-  - name: traefik
-    namespace: networking
-  - name: longhorn
-    namespace: storage
-
   values:
     global:
       nameOverride: *app
 
     image:
       repository: jlesage/jdownloader-2
-      tag: v23.01.2
+      tag: v23.03.1
 
     strategy:
       type: Recreate

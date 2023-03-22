@@ -16,17 +16,13 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
 
-  dependsOn:
-  - name: longhorn
-    namespace: storage
-
   values:
     global:
       nameOverride: *app
 
     image:
       repository: louislam/uptime-kuma
-      tag: 1.19.6
+      tag: 1.21.0
 
     service:
       main:

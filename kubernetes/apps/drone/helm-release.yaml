@@ -8,16 +8,12 @@ spec:
   chart:
     spec:
       chart: postgresql
-      version: 12.2.1
+      version: 12.2.3
       interval: 1h
       sourceRef:
         kind: HelmRepository
         name: bitnami-charts
         namespace: flux-system
-
-  dependsOn:
-  - name: longhorn
-    namespace: storage
 
   values:
     fullnameOverride: *db
@@ -53,13 +49,7 @@ spec:
         namespace: flux-system
 
   dependsOn:
-  - name: traefik
-    namespace: networking
-  - name: longhorn
-    namespace: storage
   - name: drone-postgresql
-    namespace: apps
-  - name: gitea
     namespace: apps
 
   values:

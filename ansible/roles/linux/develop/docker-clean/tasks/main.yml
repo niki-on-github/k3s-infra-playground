@@ -31,4 +31,6 @@
     file:
       state: absent
       path: "{{ docker_home }}"
+    failed_when: false  # if we use a seperate btrfs subvolume this will fail
+
 

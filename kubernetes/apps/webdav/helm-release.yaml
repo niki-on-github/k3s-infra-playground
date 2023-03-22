@@ -16,14 +16,6 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
 
-  install:
-    remediation:
-      retries: -1
-
-  upgrade:
-    remediation:
-      retries: 5
-
   values:
     global:
       nameOverride: *app

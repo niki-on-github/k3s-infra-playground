@@ -5,3 +5,4 @@ decrypted~*
 *.key
 *.pem
 secure.yml
+*secret*

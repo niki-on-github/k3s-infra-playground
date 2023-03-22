@@ -8,16 +8,12 @@ spec:
   chart:
     spec:
       chart: postgresql
-      version: 12.2.1
+      version: 12.2.3
       interval: 1h
       sourceRef:
         kind: HelmRepository
         name: bitnami-charts
         namespace: flux-system
-
-  dependsOn:
-  - name: longhorn
-    namespace: storage
 
   values:
     fullnameOverride: *db
@@ -54,12 +50,6 @@ spec:
   dependsOn:
   - name: homeassistant-postgresql
     namespace: apps
-  - name: longhorn
-    namespace: storage
-  - name: traefik
-    namespace: networking
-  - name: homeassistant-postgresql
-    namespace: apps
 
   values:
     global:
@@ -68,7 +58,7 @@ spec:
     image:
       # renovate: datasource=docker
       repository: homeassistant/home-assistant
-      tag: 2023.2.5
+      tag: 2023.3.3
 
     service:
       main:

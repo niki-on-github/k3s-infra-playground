@@ -4,4 +4,4 @@ resources:
 - traefik/ks.yaml
 - authentik/ks.yaml
 - cert-manager/ks.yaml
-- whoami
+- whoami/ks.yaml

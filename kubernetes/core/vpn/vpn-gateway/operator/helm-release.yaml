@@ -10,19 +10,12 @@ spec:
   chart:
     spec:
       chart: pod-gateway
-      version: 6.2.0
+      version: 6.5.0
       interval: 15m
       sourceRef:
         kind: HelmRepository
         name: angelnu-charts
         namespace: flux-system
-
-  dependsOn:
-    # - name: longhorn
-    #   namespace: storage
-    - name: cert-manager
-      namespace: networking
-
 
   #See https://github.com/angelnu/helm-charts/blob/main/charts/apps/pod-gateway/values.yaml
   values:

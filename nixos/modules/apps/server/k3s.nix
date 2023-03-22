@@ -42,12 +42,12 @@
   boot.kernel.sysctl."fs.inotify.max_user_instances" = 524288;
   boot.kernel.sysctl."fs.inotify.max_user_watches" = 524288;
 
-  security.pki.certificateFiles = [ "/opt/certs/self-signed-ca-cert.crt" ];
+  security.pki.certificateFiles = [ "/opt/certs/ca.crt" ];
   services.openssh.enable = true;
   services.openssh.permitRootLogin = "no";
 
   virtualisation.docker.enable = true;
-  networking.firewall.allowedTCPPorts = [ 6443 8898 8899 10250 ];
+  networking.firewall.allowedTCPPorts = [ 445 6443 8898 8899 10250 ];
 
   services.openiscsi.name = "iscsid";
   services.openiscsi.enable = true;

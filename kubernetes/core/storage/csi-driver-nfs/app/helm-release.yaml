@@ -15,14 +15,6 @@ spec:
         name: csi-driver-nfs-charts
         namespace: flux-system
 
-  install:
-    remediation:
-      retries: -1
-
-  upgrade:
-    remediation:
-      retries: 5
-
   values:
     controller:
       replicas: 1

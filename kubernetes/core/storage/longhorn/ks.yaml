@@ -83,3 +83,23 @@ spec:
     kind: DaemonSet
     name: longhorn-csi-plugin
     namespace: storage
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: longhorn-samba-server
+  namespace: flux-system
+spec:
+  interval: 60m
+  timeout: 15m
+  retryInterval: 30s
+  dependsOn:
+    - name: longhorn
+    - name: longhorn-storage
+  path: "./kubernetes/core/storage/longhorn/samba-server"
+  prune: true
+  wait: true
+  force: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system

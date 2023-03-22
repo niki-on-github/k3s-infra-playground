@@ -16,18 +16,6 @@ spec:
         name: grafana-charts
         namespace: flux-system
 
-  install:
-    remediation:
-      retries: -1
-
-  upgrade:
-    remediation:
-      retries: 5
-
-  dependsOn:
-    - name: longhorn
-      namespace: storage
-
   values:
     loki:
       enabled: true

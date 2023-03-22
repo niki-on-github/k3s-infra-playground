@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - charts/angelnu-charts.yaml
+- charts/argo-charts.yaml
 - charts/authelia-charts.yaml
 - charts/authentik-charts.yaml
 - charts/backube-charts.yaml

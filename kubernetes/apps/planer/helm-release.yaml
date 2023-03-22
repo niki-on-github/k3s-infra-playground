@@ -8,16 +8,14 @@ spec:
   chart:
     spec:
       chart: postgresql
-      version: 12.2.1
+      version: 12.2.3
       interval: 1h
       sourceRef:
         kind: HelmRepository
         name: bitnami-charts
         namespace: flux-system
 
-  dependsOn:
-  - name: longhorn
-    namespace: storage
+
 
   values:
     fullnameOverride: *db
@@ -51,13 +49,9 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
 
-  install:
-    remediation:
-      retries: -1
-
-  upgrade:
-    remediation:
-      retries: 5
+  dependsOn:
+  - name: planer-postgresql
+    namespace: apps
 
   values:
     global:
@@ -112,13 +106,10 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
 
-  install:
-    remediation:
-      retries: -1
 
-  upgrade:
-    remediation:
-      retries: 5
+  dependsOn:
+  - name: planer-postgresql
+    namespace: apps
 
   values:
     global:
