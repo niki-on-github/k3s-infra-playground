@@ -6,3 +6,4 @@ decrypted~*
 *.pem
 secure.yml
 *secret*
+*sops*
