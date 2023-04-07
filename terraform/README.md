@@ -1,8 +1,10 @@
 # Terraform
 
-This directory contains some terraform files to provision some test vms for my homelab.
+Build and Deploy test VMs.
 
-## Cheat-Sheet
+## Usage
+
+### Cheat-Sheet
 
 ```bash
 terraform init

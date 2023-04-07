@@ -1,14 +1,16 @@
 # NixOS
 
-This directory contains the NixOS configuration for my servers.
+Linux distribution based on Nix to provide a declarative and reproducible system.
 
-## Setup
+## Usage
+
+### Setup
 
 ```bash
 sudo nixos-rebuild switch  --flake '.#server1' --upgrade
 ```
 
-## Test inside VM
+### Test Configuration inside VM
 
 first set the port forwarding with `QEMU_NET_OPTS` env var:
 

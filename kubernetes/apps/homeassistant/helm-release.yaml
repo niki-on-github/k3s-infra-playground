@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: postgresql
-      version: 12.2.3
+      version: 12.2.7
       interval: 1h
       sourceRef:
         kind: HelmRepository
@@ -58,7 +58,7 @@ spec:
     image:
       # renovate: datasource=docker
       repository: homeassistant/home-assistant
-      tag: 2023.3.3
+      tag: 2023.3.6
 
     service:
       main:

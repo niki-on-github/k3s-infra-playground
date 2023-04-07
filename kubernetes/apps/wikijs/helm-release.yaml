@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: postgresql
-      version: 12.2.3
+      version: 12.2.7
       interval: 1h
       sourceRef:
         kind: HelmRepository
@@ -59,7 +59,7 @@ spec:
     image:
       # renovate: datasource=docker
       repository: ghcr.io/requarks/wiki
-      tag: 2.5.297
+      tag: 2.5.298
 
     service:
       main:

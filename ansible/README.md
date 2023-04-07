@@ -1,8 +1,8 @@
 # Ansible
 
-This directory contains the Ansible playbooks and configuration used to manage and automate my homelab.
+Ansible playbooks to configure my systems.
 
-## Setup
+## Usage
 
 ### Install Ansible dependencies
 
@@ -22,4 +22,10 @@ ssh-copy-id -i ~/.ssh/$KEYNAME.pub USER@SERVER_IP
 ```bash
 ansible-vault create ./playbooks/host_vars/$INVENTORY_HOSTNAME/secret.yml
 ansible-vault edit ./playbooks/host_vars/$INVENTORY_HOSTNAME/secret.yml
+```
+
+## Run Playbook
+
+```bash
+ansible-playbook -i ./inventory/$INVENTORY_FILE -K --ask-vault-pass playbooks/$PLAYBOOK_FILE
 ```

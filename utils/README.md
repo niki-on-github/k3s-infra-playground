@@ -1,3 +1,3 @@
 # Utils
 
-This directory contains scripts to manage my kubernetes repository.
+This directory contains scripts to manage my GitOps repository.

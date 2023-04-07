@@ -118,7 +118,7 @@ spec:
     image:
       # renovate: datasource=docker
       repository: docker.io/library/redis
-      tag: 7.0.9
+      tag: 7.0.10
 
     service:
       main:

@@ -17,8 +17,8 @@ data "template_file" "user_data" {
   template = "${file("${path.module}/cloud_init.cfg")}"
 }
 
-resource "libvirt_cloudinit_disk" "commoninit" {
-  name = "commoninit.iso"
+resource "libvirt_cloudinit_disk" "terraform-archlinux-commoninit" {
+  name = "terraform-archlinux-commoninit.iso"
   pool = "default"
   user_data = "${data.template_file.user_data.rendered}"
 }
@@ -40,7 +40,7 @@ resource "libvirt_domain" "terraform-archlinux" {
     volume_id = "${libvirt_volume.terraform-archlinux-qcow2.id}"
   }
 
-  cloudinit = "${libvirt_cloudinit_disk.commoninit.id}"
+  cloudinit = "${libvirt_cloudinit_disk.terraform-archlinux-commoninit.id}"
 
   console {
     type = "pty"

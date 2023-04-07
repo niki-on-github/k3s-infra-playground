@@ -1,0 +1,3 @@
+output-qemu/
+output-opnsense/
+*.iso

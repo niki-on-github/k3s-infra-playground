@@ -1,5 +1,22 @@
 # Abbreviations
 
-- PSP: Pod Security Policies
-- PV: Persistent Volume
-- VC: Volume Claim
+- `cm`: configmaps
+- `cs`: componentstatuses
+- `csr`: certificatesigningrequests
+- `ds`: daemonsets
+- `ep`: endpoints
+- `ev`: events
+- `hpa`: horizontalpodautoscalers
+- `ing`: ingresses
+- `no`: nodes
+- `ns`: namespaces
+- `pdb`: poddisruptionbudgets
+- `po`: pods
+- `psp`: podsecuritypolicies
+- `pv`: persistentvolumes
+- `pvc`: persistentvolumeclaims
+- `rc`: replicationcontrollers
+- `rs`: replicasets
+- `sa`: serviceaccounts
+- `svc`: services
+- `vc`: volumeclaim

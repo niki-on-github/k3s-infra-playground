@@ -8,7 +8,7 @@
   "commitMessageExtra": "to {{newVersion}}",
   "commitMessageSuffix": "",
   "prHourlyLimit": 99,
-  "docker-compose": {},
+  "prConcurrentLimit": 99,
   "hostRules": [
     {
       "matchHost": "docker.io",
@@ -65,7 +65,9 @@
       "labels": ["type/patch"],
       "automerge": true,
       "automergeType": "branch",
-      "requiredStatusChecks": null
+      "requiredStatusChecks": null,
+      "ignoreTests": true,
+      "stabilityDays": 1
     },
     {
       "matchDatasources": ["helm"],

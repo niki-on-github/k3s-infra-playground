@@ -9,7 +9,7 @@ spec:
   url: https://github.com/minio/operator.git
   ref:
     # renovate: datasource=github-releases depName=minio/operator
-    tag: v4.5.8
+    tag: v5.0.3
   ignore: |
     # exclude all
     /*
