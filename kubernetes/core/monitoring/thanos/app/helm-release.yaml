@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: thanos
-      version: 12.4.2
+      version: 12.4.3
       interval: 15m
       sourceRef:
         kind: HelmRepository

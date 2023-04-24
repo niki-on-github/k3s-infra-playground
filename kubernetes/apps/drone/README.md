@@ -1,8 +1,12 @@
-# drone
+# [Drone](https://www.drone.io/)
 
-## Example
+Drone is an open source Continuous Integration and Delivery platform built completely on docker.
 
-`.drone.yml`:
+## Usage
+
+### Example
+
+In your git repository create a `.drone.yml` with following example config:
 
 ```yaml
 ---

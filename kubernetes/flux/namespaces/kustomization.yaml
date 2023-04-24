@@ -7,6 +7,7 @@ resources:
   - resources/minio-operator.yaml
   - resources/monitoring.yaml
   - resources/networking.yaml
+  - resources/notification.yaml
   - resources/policy.yaml
   - resources/storage.yaml
   - resources/vpn-apps.yaml

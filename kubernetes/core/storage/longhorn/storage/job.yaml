@@ -4,7 +4,7 @@ metadata:
   name: longhorn-volume-setup
   namespace: storage
 spec:
-  backoffLimit: 3
+  backoffLimit: 5
   activeDeadlineSeconds: 600
   ttlSecondsAfterFinished: 1800
   template:
@@ -13,12 +13,12 @@ spec:
       containers:
       - name: longhorn-volume-setup
         imagePullPolicy: Always
-        image: ghcr.io/niki-on-github/longhorn-volume-manager:v1.0.0
+        image: ghcr.io/niki-on-github/longhorn-volume-manager:latest
         env:
         - name: LONGHORN_URL
           value: http://longhorn-frontend.storage/v1
         - name: START_DELAY_IN_SECONDS
-          value: "60"
+          value: "10"
         volumeMounts:
         - name: longhorn-volumes-config
           mountPath: /config/volumes.yaml

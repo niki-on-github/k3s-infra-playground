@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.3.2
+      version: 1.4.0
       interval: 1m
       sourceRef:
         kind: HelmRepository
@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: vaultwarden/server
-      tag: 1.28.0
+      tag: 1.28.1
 
     strategy:
       type: Recreate

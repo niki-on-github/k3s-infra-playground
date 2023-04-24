@@ -41,7 +41,7 @@ spec:
         - hourly
         - daily
         - weekly
-    gitea-db:
+    data-gitea-postgresql-0:
       namespace: apps
       size: 4Gi
       restore: true
@@ -167,26 +167,36 @@ spec:
         - hourly
         - daily
         - weekly
-    thanos-minio:
-      namespace: monitoring
-      size: 8Gi
-      restore: true
-      createPVC: false
-      claimRef: "0-minio-pool-0-0"
-      groups:
-        - hourly
-        - daily
-        - weekly
-    prometheus:
-      namespace: monitoring
-      size: 8Gi
-      restore: true
-      createPVC: false
-      claimRef: "prometheus-prometheus-prometheus-db-prometheus-prometheus-prometheus-0"
-      groups:
-        - hourly
-        - daily
-        - weekly
+    # thanos-minio:
+    #   namespace: monitoring
+    #   size: 8Gi
+    #   restore: true
+    #   createPVC: false
+    #   claimRef: "0-minio-pool-0-0"
+    #   groups:
+    #     - hourly
+    #     - daily
+    #     - weekly
+    # alertmanager:
+    #   namespace: monitoring
+    #   size: 2Gi
+    #   restore: true
+    #   createPVC: false
+    #   claimRef: "alertmanager-prometheus-alertmanager-db-alertmanager-prometheus-alertmanager-0"
+    #   groups:
+    #     - hourly
+    #     - daily
+    #     - weekly
+    # prometheus:
+    #   namespace: monitoring
+    #   size: 8Gi
+    #   restore: true
+    #   createPVC: false
+    #   claimRef: "prometheus-prometheus-prometheus-db-prometheus-prometheus-prometheus-0"
+    #   groups:
+    #     - hourly
+    #     - daily
+    #     - weekly
     docker-registry:
       namespace: storage
       size: 32Gi
@@ -217,6 +227,24 @@ spec:
     scrutiny-db:
       namespace: monitoring
       size: 4Gi
+      restore: true
+      createPVC: true
+      groups:
+        - hourly
+        - daily
+        - weekly
+    signal-rest-api-data:
+      namespace: notification
+      size: 2Gi
+      restore: true
+      createPVC: true
+      groups:
+        - hourly
+        - daily
+        - weekly
+    gitea-runner-data:
+      namespace: apps
+      size: 2Gi
       restore: true
       createPVC: true
       groups:

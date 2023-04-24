@@ -10,6 +10,7 @@ spec:
   dependsOn:
     - name: longhorn-storage
     - name: thanos
+    - name: traefik
   path: "./kubernetes/core/monitoring/prometheus-stack/app"
   prune: true
   sourceRef:

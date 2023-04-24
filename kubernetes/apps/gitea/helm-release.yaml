@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: gitea
-      version: 8.0.2
+      version: 8.1.0
       interval: 1h
       sourceRef:
         kind: HelmRepository
@@ -68,12 +68,21 @@ spec:
         webhook:
           ALLOWED_HOST_LIST: "*"
           SKIP_TLS_VERIFY: true
+        metrics:
+          ENABLED: true
+        api:
+          ENABLE_SWAGGER: true
+        packages:
+          ENABLED: true
+        actions:
+          ENABLED: true
 
     postgresql:
       enabled: true
       persistence:
         enabled: true
-        existingClaim: gitea-db
+        # the name can not set since chart version 8, below name is the default one
+        existingClaim: data-gitea-postgresql-0
 
     memcached:
       enabled: true
@@ -81,3 +90,56 @@ spec:
         requests:
           cpu: 25m
           memory: 256M
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app gitea-runner
+  namespace: apps
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.4.0
+      interval: 1m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+
+  values:
+    image:
+      # TODO change me if official image is availabe from gitea
+      repository: vegardit/gitea-act-runner
+      tag: "latest"
+
+    global:
+      nameOverride: *app
+
+    env:
+      TZ: "${TIMEZONE}"
+      GITEA_INSTANCE_URL: "https://git.${SECRET_DOMAIN}"
+      GITEA_RUNNER_REGISTRATION_TOKEN: "${SECRET_GITEA_RUNNER_TOKEN}"
+      GITEA_INSTANCE_INSECURE: true
+      GITEA_RUNNER_JOB_CONTAINER_OPTIONS: "--add-host=git.${SECRET_DOMAIN}:host-gateway -e GIT_SSL_NO_VERIFY=true -e RUNNER_TEMP=/tmp"
+
+    service:
+      main:
+        enabled: false
+
+    ingress:
+      main:
+        enabled: false
+
+    persistence:
+      docker-sock:
+        enabled: true
+        type: hostPath
+        mountPath: "/var/run/docker.sock"
+        hostPath: "/var/run/docker.sock"
+      data:
+        enabled: true
+        type: pvc
+        mountPath: /data
+        existingClaim: gitea-runner-data

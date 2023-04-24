@@ -10,7 +10,7 @@ spec:
     branch: main
   secretRef:
     name: flux-git-auth
-  url: ssh://git@git.server01.lan:222/r/k3s-infra-testing.git
+  url: ssh://git@git.server01.lan:222/r/gitops-homelab.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization

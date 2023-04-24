@@ -16,6 +16,7 @@ spec:
     - name: longhorn
     - name: external-snapshotter
     - name: minio
+    - name: prometheus-stack
   sourceRef:
     kind: GitRepository
     name: flux-system

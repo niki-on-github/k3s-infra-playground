@@ -4,14 +4,14 @@ kind: Kustomization
 resources:
 - drone
 - gitea
-- homeassistant
-- mosquitto
-- netboot
-- paperless
-- planer
-- syncthing
-- vaultwarden
-- vpn
-- webdav
-- wikijs
+# - homeassistant
+# - mosquitto
+# - netboot
+# - paperless
+# - planer
+# - syncthing
+# - vaultwarden
+# - vpn
+# - webdav
+# - wikijs
 # - zigbee2mqtt

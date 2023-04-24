@@ -9,4 +9,5 @@ resources:
   - storage
   - vms
   - vpn
+  - notification
 

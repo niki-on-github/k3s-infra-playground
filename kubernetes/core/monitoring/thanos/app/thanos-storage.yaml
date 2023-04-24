@@ -64,9 +64,7 @@ spec:
     volumesPerServer: 1
     volumeClaimTemplate:
       spec:
-        selector:
-          matchLabels:
-            app.kubernetes.io/name: thanos-minio
+        storageClassName: longhorn
         accessModes:
           - ReadWriteOnce
         resources:
