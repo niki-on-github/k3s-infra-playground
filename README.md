@@ -1,6 +1,9 @@
-# GitOps Homelab
+# GitOps Homelab Playground
 
-My GitOps Kubernetes Infrastructure and Application Setup hosted on my personal Git Server. Feel free to look around. Be aware that not all configuration files are available in my public repository.
+> [!WARNING]  
+> This repository is no longer used by me and has been replaced by my [nixos-k3s](https://github.com/niki-on-github/nixos-k3s) repository.
+
+This repository was used to learn the necessary basics for my homelab which later resulted in my [nixos-k3s](https://github.com/niki-on-github/nixos-k3s) repository. Feel free to look around. Be aware that not all configuration files are available in my public repository.
 
 ## Overview
 
